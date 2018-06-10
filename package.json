@@ -1,10 +1,21 @@
 {
-  "name": "mdrc",
-  "version": "0.1.1",
+  "name": "mrcw",
+  "version": "0.0.2",
+  "author": "Louis Phang",
   "engines": {
     "node": "8.11.1",
     "npm": "5.7.1",
     "yarn": "1.6.0"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/louis-pvs/mrcw.git"
+  },
+  "peerDependencies": {
+    "react": "^15.x.x || ^16.x.x",
+    "react-dom": "^15.x.x || ^16.x.x"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0-beta.49",
