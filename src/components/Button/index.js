@@ -54,7 +54,7 @@ Button.defaultProps = {
   dense: false,
   outlined: false,
   raised: false,
-  unelevated: true,
+  unelevated: false,
 };
 
 export default Button;
