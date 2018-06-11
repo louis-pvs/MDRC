@@ -1,7 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './components/App';
-import registerServiceWorker from './registerServiceWorker';
+import Button from './components/Button';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+const mrcw = { Button };
+export { Button };
+export default mrcw;

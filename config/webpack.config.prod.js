@@ -1,10 +1,6 @@
 const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const eslintFormatter = require('eslint-friendly-formatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
@@ -14,7 +10,6 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 
 const publicPath = paths.servedPath;
-const shouldUseRelativeAssetPaths = publicPath === './';
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 const publicUrl = publicPath.slice(0, -1);
 const env = getClientEnvironment(publicUrl);
@@ -22,15 +17,6 @@ const env = getClientEnvironment(publicUrl);
 if (env.stringified['process.env'].NODE_ENV !== '"production"') {
   throw new Error('Production builds must have NODE_ENV=production.');
 }
-
-const cssFilename = 'static/css/[name].[contenthash:8].css';
-const sassFileName = 'static/css/[name].[hash:8].css';
-const extractTextPluginOptions = shouldUseRelativeAssetPaths
-  ? { publicPath: Array(cssFilename.split('/').length).join('../') }
-  : {};
-
-const ExtractCSS = new ExtractTextPlugin({ filename: cssFilename });
-const ExtractSASS = new ExtractTextPlugin({ filename: sassFileName });
 
 const postCssLoader = {
   loader: require.resolve('postcss-loader'),
@@ -64,22 +50,119 @@ module.exports = {
   mode: 'production',
   bail: true,
   devtool: shouldUseSourceMap ? 'source-map' : false,
-  entry: [require.resolve('@babel/polyfill'), paths.appIndexJs],
+  entry: [require.resolve('@babel/polyfill'), paths.appBuildIndexJs],
   output: {
     path: paths.appBuild,
-    filename: 'static/js/[name].[chunkhash:8].js',
-    chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+    filename: '[name].js',
     publicPath,
+    library: 'mrcw',
+    libraryTarget: 'commonjs2',
     devtoolModuleFilenameTemplate: info =>
-      path.relative(paths.appSrc, info.absoluteResourcePath).replace(/\\/g, '/'),
+      path.relative(paths.appBuildSrc, info.absoluteResourcePath).replace(/\\/g, '/'),
   },
+  externals: [
+    {
+      'material-components-web': {
+        root: 'material-components-web',
+        commonjs2: 'material-components-web',
+        commonjs: 'material-components-web',
+        amd: 'material-components-web',
+        umd: 'material-components-web',
+      },
+    },
+    ...[
+      'animation',
+      'auto-init',
+      'base',
+      'button',
+      'card',
+      'checkbox',
+      'dialog',
+      'drawer',
+      'elevation',
+      'fab',
+      'form-field',
+      'grid-list',
+      'icon-toggle',
+      'layout-grid',
+      'linear-progress',
+      'list',
+      'menu',
+      'radio',
+      'ripple',
+      'rtl',
+      'select',
+      'selection-control',
+      'slider',
+      'snackbar',
+      'switch',
+      'tabs',
+      'textfield',
+      'theme',
+      'toolbar',
+      'typography',
+    ].map((name) => {
+      const parts = name.split('-');
+      const upperName =
+        parts.length > 1
+          ? `${parts[0]}${parts[1].charAt(0).toUpperCase()}${parts[1].slice(1)}`
+          : name;
+      const moduleName = `@material/${name}/dist/mdc.${upperName}`;
+
+      return {
+        [moduleName]: {
+          root: moduleName,
+          commonjs2: moduleName,
+          commonjs: moduleName,
+          amd: moduleName,
+          umd: moduleName,
+        },
+      };
+    }),
+    {
+      react: {
+        root: 'React',
+        commonjs2: 'react',
+        commonjs: 'react',
+        amd: 'react',
+        umd: 'react',
+      },
+    },
+    {
+      'react-dom': {
+        root: 'ReactDOM',
+        commonjs2: 'react-dom',
+        commonjs: 'react-dom',
+        amd: 'react-dom',
+        umd: 'react-dom',
+      },
+    },
+    {
+      classnames: {
+        root: 'classNames',
+        commonjs2: 'classnames',
+        commonjs: 'classnames',
+        amd: 'classnames',
+        umd: 'classnames',
+      },
+    },
+    {
+      'prop-types': {
+        root: 'PropTypes',
+        commonjs2: 'prop-types',
+        commonjs: 'prop-types',
+        amd: 'prop-types',
+        umd: 'prop-types',
+      },
+    },
+  ],
   resolve: {
     modules: ['node_modules', paths.appNodeModules].concat(process.env.NODE_PATH.split(path.delimiter).filter(Boolean)),
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx', '.sass', '.scss'],
     alias: {
       'react-native': 'react-native-web',
     },
-    plugins: [new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson])],
+    plugins: [new ModuleScopePlugin(paths.appBuildSrc, [paths.appPackageJson])],
   },
   module: {
     strictExportPresence: true,
@@ -97,7 +180,7 @@ module.exports = {
             },
           },
         ],
-        include: paths.appSrc,
+        include: paths.appBuildSrc,
       },
       {
         oneOf: [
@@ -111,7 +194,7 @@ module.exports = {
           },
           {
             test: /\.(js|jsx|mjs)$/,
-            include: paths.appSrc,
+            include: paths.appBuildSrc,
             loader: require.resolve('babel-loader'),
             options: {
               compact: true,
@@ -119,33 +202,22 @@ module.exports = {
           },
           {
             test: /\.css$/,
-            loader: ExtractCSS.extract(Object.assign(
-              {
-                fallback: styleLoader,
-                use: [cssLoader, postCssLoader],
-              },
-              extractTextPluginOptions,
-            )),
+            use: [styleLoader, cssLoader, postCssLoader],
           },
           {
             test: /\.(sa|sc|c)ss$/,
-            loader: ExtractSASS.extract(Object.assign(
+            use: [
+              styleLoader,
+              cssLoader,
+              postCssLoader,
               {
-                fallback: styleLoader,
-                use: [
-                  cssLoader,
-                  postCssLoader,
-                  {
-                    loader: require.resolve('sass-loader'),
-                    options: {
-                      includePaths: [paths.appNodeModules],
-                      sourceMap: shouldUseSourceMap,
-                    },
-                  },
-                ],
+                loader: require.resolve('sass-loader'),
+                options: {
+                  includePaths: [paths.appNodeModules],
+                  sourceMap: shouldUseSourceMap,
+                },
               },
-              extractTextPluginOptions,
-            )),
+            ],
           },
           {
             loader: require.resolve('file-loader'),
@@ -159,29 +231,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: paths.appHtml,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true,
-      },
-    }),
-    new InterpolateHtmlPlugin(env.raw),
     new webpack.DefinePlugin(env.stringified),
-    ExtractCSS,
-    ExtractSASS,
-    new ManifestPlugin({
-      fileName: 'asset-manifest.json',
-    }),
     new SWPrecacheWebpackPlugin({
       dontCacheBustUrlsMatching: /\.\w{8}\./,
       filename: 'service-worker.js',
@@ -208,7 +258,7 @@ module.exports = {
         parallel: true,
         sourceMap: shouldUseSourceMap,
         uglifyOptions: {
-          compress: true,
+          compress: false,
           ecma: 6,
           mangle: true,
           safari10: true,
