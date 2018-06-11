@@ -28,7 +28,8 @@ class Button extends PureComponent {
     return className.split(' ', 1);
   };
   init = (ref) => {
-    if (this.ref !== ref) {
+    if (!this.props.ripple) this.ref = ref;
+    else if (this.ref !== ref) {
       this.ref = new MDCRipple(document.querySelector(`.${this.selectorClass}`));
     }
   };
@@ -55,6 +56,7 @@ Button.propTypes = {
   dense: PropTypes.bool,
   outlined: PropTypes.bool,
   raised: PropTypes.bool,
+  ripple: PropTypes.bool,
   unelevated: PropTypes.bool,
 };
 
@@ -64,6 +66,7 @@ Button.defaultProps = {
   dense: false,
   outlined: false,
   raised: false,
+  ripple: true,
   unelevated: false,
 };
 
