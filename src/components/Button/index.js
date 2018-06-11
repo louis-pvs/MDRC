@@ -10,7 +10,6 @@ class Button extends PureComponent {
   constructor(props) {
     super(props);
     this.ref = null;
-    this.selectorClass = this.getSelectorClass(props) || 'mrcw-button';
     this.className = classnames(
       {
         'mdc-button': true,
@@ -18,19 +17,13 @@ class Button extends PureComponent {
         'mdc-button--unelevated': props.unelevated,
         'mdc-button--outlined': props.outlined,
         'mdc-button--dense': props.dense,
-        'mrcw-button': !props.className,
       },
       props.className,
     );
   }
-  getSelectorClass = ({ className }) => {
-    if (!className) return false;
-    return className.split(' ', 1);
-  };
   init = (ref) => {
-    if (!this.props.ripple) this.ref = ref;
-    else if (this.ref !== ref) {
-      this.ref = new MDCRipple(document.querySelector(`.${this.selectorClass}`));
+    if (this.props.ripple) {
+      this.ref = new MDCRipple(ref);
     }
   };
   render() {
