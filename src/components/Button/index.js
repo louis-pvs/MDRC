@@ -1,34 +1,44 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { MDCRipple } from '@material/ripple';
-import className from 'classnames';
+import classnames from 'classnames';
 import './button.scss';
+
+import omit from '../../utils/omit';
 
 class Button extends PureComponent {
   constructor(props) {
     super(props);
     this.ref = null;
-    this.defaultClassName = 'mrcw-button';
-    this.className = className(
+    this.selectorClass = this.getSelectorClass(props) || 'mrcw-button';
+    this.className = classnames(
       {
         'mdc-button': true,
         'mdc-button--raised': props.raised,
         'mdc-button--unelevated': props.unelevated,
         'mdc-button--outlined': props.outlined,
         'mdc-button--dense': props.dense,
-        [this.defaultClassName]: !props.customClassName,
+        'mrcw-button': !props.className,
       },
-      props.customClassName,
+      props.className,
     );
   }
+  getSelectorClass = ({ className }) => {
+    if (!className) return false;
+    return className.split(' ', 1);
+  };
   init = (ref) => {
     if (this.ref !== ref) {
-      this.ref = new MDCRipple(document.querySelector(`.${this.props.customClassName || this.defaultClassName}`));
+      this.ref = new MDCRipple(document.querySelector(`.${this.selectorClass}`));
     }
   };
   render() {
     return (
-      <button ref={this.init} className={this.className}>
+      <button
+        ref={this.init}
+        className={this.className}
+        {...omit(this.props, Object.keys(Button.defaultProps))}
+      >
         {this.props.children}
       </button>
     );
@@ -41,7 +51,7 @@ Button.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.node, PropTypes.string),
   ]),
-  customClassName: PropTypes.string,
+  className: PropTypes.string,
   dense: PropTypes.bool,
   outlined: PropTypes.bool,
   raised: PropTypes.bool,
@@ -50,7 +60,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
   children: null,
-  customClassName: null,
+  className: null,
   dense: false,
   outlined: false,
   raised: false,
