@@ -21,10 +21,10 @@ const App = () => {
 ```
 
 ## Props
-| Props name | Props type | Default props | Description                           |
-| ---------- | ---------- | ------------- | ------------------------------------- |
-| dense      | bool       | false         | enable class `mdc-button--dense`      |
-| outlined   | bool       | false         | enable class `mdc-button--outlined`   |
-| raised     | bool       | false         | enable class `mdc-button--raised`     |
-| unelevated | bool       | false         | enable class `mdc-button--unelevated` |
-| ripple     | bool       | true          | enable `new MDCRipple(ref)`           |
+| Name       | Type           | Default | Description                           |
+| ---------- | -------------- | ------- | ------------------------------------- |
+| dense      | PropTypes.bool | false   | enable class `mdc-button--dense`      |
+| outlined   | PropTypes.bool | false   | enable class `mdc-button--outlined`   |
+| raised     | PropTypes.bool | false   | enable class `mdc-button--raised`     |
+| unelevated | PropTypes.bool | false   | enable class `mdc-button--unelevated` |
+| ripple     | PropTypes.bool | true    | enable `new MDCRipple(ref)`           |
