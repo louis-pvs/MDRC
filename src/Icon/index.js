@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import './icon.scss';
-import omit from '../../utils/omit';
+import omit from '../utils/omit';
 
 const Icon = props => (
   <i

@@ -4,7 +4,7 @@ import { MDCRipple } from '@material/ripple';
 import classnames from 'classnames';
 import './button.scss';
 
-import omit from '../../utils/omit';
+import omit from '../utils/omit';
 
 class Button extends PureComponent {
   constructor(props) {

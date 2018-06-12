@@ -4,7 +4,7 @@ import { MDCRipple } from '@material/ripple';
 import classnames from 'classnames';
 import './fab.scss';
 
-import omit from '../../utils/omit';
+import omit from '../utils/omit';
 
 class Fab extends PureComponent {
   constructor(props) {
