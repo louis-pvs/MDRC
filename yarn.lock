@@ -34,6 +34,15 @@
     "@material/animation" "^0.34.0"
     "@material/theme" "^0.4.0"
 
+"@material/fab@^0.36.0":
+  version "0.36.0"
+  resolved "https://registry.yarnpkg.com/@material/fab/-/fab-0.36.0.tgz#fbcf66ef2d39494467fa591cfa2f5141edae5577"
+  dependencies:
+    "@material/animation" "^0.34.0"
+    "@material/elevation" "^0.35.0"
+    "@material/ripple" "^0.36.0"
+    "@material/theme" "^0.35.0"
+
 "@material/ripple@^0.36.0":
   version "0.36.0"
   resolved "https://registry.yarnpkg.com/@material/ripple/-/ripple-0.36.0.tgz#262491c37643c3aabad93cd033698622c70beb13"
