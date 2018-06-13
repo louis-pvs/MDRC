@@ -97,11 +97,10 @@ measureFileSizesBeforeBuild(paths.appBuild)
         WARN_AFTER_BUNDLE_GZIP_SIZE,
         WARN_AFTER_CHUNK_GZIP_SIZE,
       );
-      console.log();
 
       const appPackage = require.resolve(paths.appPackageJson);
       const { publicUrl } = paths;
-      const { publicPath } = config.output;
+      const { publicPath } = config.output || config[0].output;
       const buildFolder = path.relative(process.cwd(), paths.appBuild);
       printHostingInstructions(appPackage, publicUrl, publicPath, buildFolder, useYarn);
     },
