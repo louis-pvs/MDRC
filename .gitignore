@@ -8,7 +8,6 @@
 
 # production
 /dist
-/src
 
 # misc
 .docz
