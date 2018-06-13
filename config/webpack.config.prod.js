@@ -22,6 +22,7 @@ const postCssLoader = {
   loader: require.resolve('postcss-loader'),
   options: {
     ident: 'postcss',
+    sourceMap: shouldUseSourceMap,
     plugins: () => [
       postcssFlexbugsFixes,
       autoprefixer({

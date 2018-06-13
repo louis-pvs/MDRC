@@ -5343,6 +5343,18 @@ move-concurrently@^1.0.1:
     rimraf "^2.5.4"
     run-queue "^1.0.3"
 
+mrcw@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/mrcw/-/mrcw-0.0.2.tgz#47ce84877e610af15a78ff59ac85d7e09c43f721"
+  dependencies:
+    "@babel/polyfill" "^7.0.0-beta.49"
+    "@material/button" "^0.36.0"
+    "@material/ripple" "^0.36.0"
+    classnames "^2.2.6"
+    prop-types "^15.6.1"
+    react "^16.4.0"
+    react-dom "^16.4.0"
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"

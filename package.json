@@ -8,7 +8,7 @@
     "yarn": "1.6.0"
   },
   "license": "MIT",
-  "main": "build/index.js",
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/louis-pvs/mrcw.git"
@@ -25,6 +25,7 @@
     "@material/theme": "^0.35.0",
     "classnames": "^2.2.6",
     "material-design-icons": "^3.0.1",
+    "mrcw": "^0.0.2",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0"
@@ -83,7 +84,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "postbuild": "NODE_ENV=production babel src/index.js --out-file build/index.js --copy-files",
+    "build:style": "node-sass lib/styles/mrcw.scss dist/mrcw.css --include-path=node_modules && postcss dist/mrcw.css -m -r",
+    "postbuild": "NODE_ENV=production babel lib/index.js -o dist/index.js --copy-files && npm run build:style",
     "test": "node scripts/test.js --env=jsdom",
     "precommit": "lint-staged",
     "prepublish": "npm build"

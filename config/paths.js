@@ -26,19 +26,19 @@ function getServedPath(appPackageJson) {
 }
 
 module.exports = {
-  appBuild: resolveApp('build'),
-  appBuildIndexJs: resolveApp('src/index.js'),
-  appBuildSrc: resolveApp('src'),
+  appBuild: resolveApp('dist'),
+  appBuildIndexJs: resolveApp('lib/index.js'),
+  appBuildSrc: resolveApp('lib'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveApp('demo/index.js'),
+  appIndexJs: resolveApp('src/index.js'),
   appNodeModules: resolveApp('node_modules'),
   materialIcon: resolveApp('node_modules/material-design-icons/iconfont'),
   appPackageJson: resolveApp('package.json'),
   appPublic: resolveApp('public'),
-  appSrc: resolveApp('demo'),
+  appSrc: resolveApp('src'),
   dotenv: resolveApp('.env'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
-  testsSetup: resolveApp('src/setupTests.js'),
+  testsSetup: resolveApp('lib/setupTests.js'),
   yarnLockFile: resolveApp('yarn.lock'),
 };
