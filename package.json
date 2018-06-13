@@ -25,7 +25,7 @@
     "@material/theme": "^0.35.0",
     "classnames": "^2.2.6",
     "material-design-icons": "^3.0.1",
-    "mrcw": "^0.0.2",
+    "mrcw": "^0.0.4",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0"
@@ -41,6 +41,7 @@
     "case-sensitive-paths-webpack-plugin": "2.1.1",
     "chalk": "1.1.3",
     "css-loader": "0.28.7",
+    "docz": "^0.2.3",
     "dotenv": "4.0.0",
     "dotenv-expand": "4.2.0",
     "eslint": "4.10.0",
@@ -82,9 +83,10 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "docz dev",
     "build": "node scripts/build.js",
     "build:style": "node-sass lib/styles/mrcw.scss dist/mrcw.css --include-path=node_modules && postcss dist/mrcw.css -m -r",
+    "build:docz": "docz build",
     "postbuild": "NODE_ENV=production babel lib/index.js -o dist/index.js --copy-files && npm run build:style",
     "test": "node scripts/test.js --env=jsdom",
     "precommit": "lint-staged",
