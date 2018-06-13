@@ -56,7 +56,6 @@ module.exports = {
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx', '.scss', '.sass'],
     alias: {
       'react-native': 'react-native-web',
-      'material-design-icons': paths.materialIcon,
       lib: paths.appBuildSrc,
     },
     plugins: [new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson])],

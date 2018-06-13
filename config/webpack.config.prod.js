@@ -174,7 +174,6 @@ module.exports = ComponentList.map((Component) => {
       extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx', '.sass', '.scss'],
       alias: {
         'react-native': 'react-native-web',
-        'material-design-icons': paths.materialIcon,
       },
       plugins: [new ModuleScopePlugin(paths.appBuildSrc, [paths.appPackageJson])],
     },

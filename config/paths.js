@@ -32,7 +32,6 @@ module.exports = {
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveApp('src/index.js'),
   appNodeModules: resolveApp('node_modules'),
-  materialIcon: resolveApp('node_modules/material-design-icons/iconfont'),
   appPackageJson: resolveApp('package.json'),
   appPublic: resolveApp('public'),
   appSrc: resolveApp('src'),

@@ -1,6 +1,17 @@
-src
+## dev folder
+/src
+/node_modules
+
+## project script
+/config
+/scripts
+
+## mics
 .gitignore
-config
-scripts
+.sass-cache
+.npmignore
+.gitignore
+
+##
 yarn-error.log
 yarn.lock
