@@ -21,11 +21,12 @@
     "@babel/polyfill": "^7.0.0-beta.49",
     "@material/button": "^0.36.0",
     "@material/fab": "^0.36.0",
+    "@material/icon-toggle": "^0.36.0",
     "@material/ripple": "^0.36.0",
     "@material/theme": "^0.35.0",
     "classnames": "^2.2.6",
     "material-design-icons": "^3.0.1",
-    "mrcw": "^0.0.2",
+    "mrcw": "^0.0.4",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0"

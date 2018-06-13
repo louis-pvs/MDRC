@@ -43,6 +43,15 @@
     "@material/ripple" "^0.36.0"
     "@material/theme" "^0.35.0"
 
+"@material/icon-toggle@^0.36.0":
+  version "0.36.0"
+  resolved "https://registry.yarnpkg.com/@material/icon-toggle/-/icon-toggle-0.36.0.tgz#df9ef528b4ce0849af7ca728cf23602794cd8fad"
+  dependencies:
+    "@material/animation" "^0.34.0"
+    "@material/base" "^0.35.0"
+    "@material/ripple" "^0.36.0"
+    "@material/theme" "^0.35.0"
+
 "@material/ripple@^0.36.0":
   version "0.36.0"
   resolved "https://registry.yarnpkg.com/@material/ripple/-/ripple-0.36.0.tgz#262491c37643c3aabad93cd033698622c70beb13"
@@ -5351,6 +5360,22 @@ mrcw@^0.0.2:
     "@material/button" "^0.36.0"
     "@material/ripple" "^0.36.0"
     classnames "^2.2.6"
+    prop-types "^15.6.1"
+    react "^16.4.0"
+    react-dom "^16.4.0"
+
+mrcw@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/mrcw/-/mrcw-0.0.4.tgz#db8c0abcbc460d2a45acb4ac553727c4a589182a"
+  dependencies:
+    "@babel/polyfill" "^7.0.0-beta.49"
+    "@material/button" "^0.36.0"
+    "@material/fab" "^0.36.0"
+    "@material/ripple" "^0.36.0"
+    "@material/theme" "^0.35.0"
+    classnames "^2.2.6"
+    material-design-icons "^3.0.1"
+    mrcw "^0.0.2"
     prop-types "^15.6.1"
     react "^16.4.0"
     react-dom "^16.4.0"
