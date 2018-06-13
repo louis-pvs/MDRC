@@ -47,7 +47,7 @@ const styleLoader = {
   },
 };
 
-const ComponentList = ['Button', 'Icon', 'Fab'];
+const ComponentList = ['Button', 'Icon', 'Fab', 'IconToggle'];
 
 module.exports = ComponentList.map((Component) => {
   const cssFilename = `${Component}/${Component}.css?[contenthash:8]`;
