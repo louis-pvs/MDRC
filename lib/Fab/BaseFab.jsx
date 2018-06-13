@@ -10,15 +10,6 @@ class Fab extends PureComponent {
   constructor(props) {
     super(props);
     this.ref = null;
-    this.className = classnames(
-      {
-        'mdc-fab': true,
-        'mdc-fab--mini': props.mini,
-        'mdc-fab--exited': props.exited,
-        'mrcw-fab--absolute': props.absolute,
-      },
-      props.className,
-    );
   }
   init = (ref) => {
     if (this.props.ripple) {
@@ -26,10 +17,19 @@ class Fab extends PureComponent {
     }
   };
   render() {
+    const className = classnames(
+      {
+        'mdc-fab': true,
+        'mdc-fab--mini': this.props.mini,
+        'mdc-fab--exited': this.props.exited,
+        'mrcw-fab--absolute': this.props.absolute,
+      },
+      this.props.className,
+    );
     return (
       <button
         ref={this.init}
-        className={this.className}
+        className={className}
         {...omit(this.props, Object.keys(Fab.defaultProps))}
       >
         {this.props.children}
