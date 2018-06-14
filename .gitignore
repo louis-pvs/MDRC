@@ -8,6 +8,12 @@
 
 # production
 /dist
+/src
+.docz
+
+# development
+/src/App.js
+/src/index.js
 
 # misc
 .docz
