@@ -30,7 +30,7 @@ class Fab extends PureComponent {
       <button
         ref={this.init}
         className={className}
-        {...omit(this.props, Object.keys(Fab.defaultProps))}
+        {...omit(this.props, Object.keys(Fab.propTypes))}
       >
         {this.props.children}
       </button>
