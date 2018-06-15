@@ -5389,6 +5389,24 @@ mrcw@^0.0.4:
     react "^16.4.0"
     react-dom "^16.4.0"
 
+mrcw@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/mrcw/-/mrcw-0.0.5.tgz#7720386123abd5a70f7479e0ee89ced9869bfc50"
+  dependencies:
+    "@babel/polyfill" "^7.0.0-beta.49"
+    "@material/button" "^0.36.0"
+    "@material/card" "^0.36.0"
+    "@material/fab" "^0.36.0"
+    "@material/icon-toggle" "^0.36.0"
+    "@material/ripple" "^0.36.0"
+    "@material/theme" "^0.35.0"
+    classnames "^2.2.6"
+    material-design-icons "^3.0.1"
+    mrcw "^0.0.4"
+    prop-types "^15.6.1"
+    react "^16.4.0"
+    react-dom "^16.4.0"
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
