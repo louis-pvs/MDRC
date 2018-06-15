@@ -1,11 +1,22 @@
 import React, { PureComponent, cloneElement } from 'react';
-import PropTypes from 'prop-types';
+import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
 import classnames from 'classnames';
 
 import './card.scss';
 import omit from '../utils/omit';
 
 class CardButtons extends PureComponent {
+  static propTypes = {
+    children: oneOfType([node, string, arrayOf(node, string)]),
+    className: string,
+    appendClassToChild: bool,
+  };
+  static defaultProps = {
+    children: null,
+    className: null,
+    appendClassToChild: true,
+  };
+
   cloneChild = (child, key) => {
     if (!child || !child.props) return child;
     const className = classnames(
@@ -16,14 +27,15 @@ class CardButtons extends PureComponent {
     const props = { className, key };
     return cloneElement(child, props);
   };
+
   renderChild() {
-    if (!this.props.appendClassToChild) return this.props.children;
-    if (!this.props.children) return null;
-    if (Array.isArray(this.props.children)) {
+    if (!this.props.appendClassToChild || !this.props.children) return this.props.children;
+    else if (Array.isArray(this.props.children)) {
       return this.props.children.map(this.cloneChild);
     }
     return this.cloneChild(this.props.children);
   }
+
   render() {
     const className = classnames('mdc-card__buttons', this.props.className);
     return (
@@ -33,21 +45,5 @@ class CardButtons extends PureComponent {
     );
   }
 }
-
-CardButtons.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.node, PropTypes.string),
-  ]),
-  className: PropTypes.string,
-  appendClassToChild: PropTypes.bool,
-};
-
-CardButtons.defaultProps = {
-  children: null,
-  className: null,
-  appendClassToChild: true,
-};
 
 export default CardButtons;
