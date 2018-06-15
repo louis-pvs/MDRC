@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import { bool, oneOfType, node, string, arrayOf } from 'prop-types';
 import { MDCRipple } from '@material/ripple';
 import classnames from 'classnames';
 import './fab.scss';
@@ -7,19 +7,38 @@ import './fab.scss';
 import omit from '../utils/omit';
 
 class Fab extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.ref = null;
-  }
+  static propTypes = {
+    absolute: bool,
+    children: oneOfType([node, string, arrayOf(node, string)]),
+    className: string,
+    exited: bool,
+    mini: bool,
+    ripple: bool,
+  };
+  static defaultProps = {
+    absolute: true,
+    children: null,
+    className: null,
+    exited: false,
+    mini: false,
+    ripple: true,
+  };
+
+  ref = null;
+  ripple = null;
   init = (ref) => {
-    if (ref && this.props.ripple) {
-      this.ref = new MDCRipple(ref);
+    if (ref && this.ref !== ref) {
+      this.ref = ref;
+      if (this.props.ripple) {
+        this.ripple = new MDCRipple(ref);
+      }
     }
   };
+
   render() {
     const className = classnames(
+      'mdc-fab',
       {
-        'mdc-fab': true,
         'mdc-fab--mini': this.props.mini,
         'mdc-fab--exited': this.props.exited,
         'mrcw-fab--absolute': this.props.absolute,
@@ -37,27 +56,5 @@ class Fab extends PureComponent {
     );
   }
 }
-
-Fab.propTypes = {
-  absolute: PropTypes.bool,
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.node, PropTypes.string),
-  ]),
-  className: PropTypes.string,
-  exited: PropTypes.bool,
-  mini: PropTypes.bool,
-  ripple: PropTypes.bool,
-};
-
-Fab.defaultProps = {
-  absolute: true,
-  children: null,
-  className: null,
-  exited: false,
-  mini: false,
-  ripple: true,
-};
 
 export default Fab;

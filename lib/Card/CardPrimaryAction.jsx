@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
 import classnames from 'classnames';
 import { MDCRipple } from '@material/ripple';
 
@@ -7,11 +7,28 @@ import './card.scss';
 import omit from '../utils/omit';
 
 class CardMedia extends PureComponent {
+  static propTypes = {
+    children: oneOfType([node, string, arrayOf(node, string)]),
+    className: string,
+    ripple: bool,
+  };
+  static defaultProps = {
+    children: null,
+    className: null,
+    ripple: true,
+  };
+
+  ref = null;
+  ripple = null;
   init = (ref) => {
-    if (this.props.ripple) {
-      this.ref = new MDCRipple(ref);
+    if (ref && this.ref !== ref) {
+      this.ref = ref;
+      if (this.props.ripple) {
+        this.ripple = new MDCRipple(ref);
+      }
     }
   };
+
   render() {
     const className = classnames('mdc-card__primary-action', this.props.className);
     return (
@@ -25,21 +42,5 @@ class CardMedia extends PureComponent {
     );
   }
 }
-
-CardMedia.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.node, PropTypes.string),
-  ]),
-  className: PropTypes.string,
-  ripple: PropTypes.bool,
-};
-
-CardMedia.defaultProps = {
-  children: null,
-  className: null,
-  ripple: true,
-};
 
 export default CardMedia;
