@@ -1,19 +1,24 @@
 const autoprefixer = require('autoprefixer');
-const path = require('path');
-const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const eslintFormatter = require('eslint-friendly-formatter');
-const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+const path = require('path');
+const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
+const webpack = require('webpack');
+
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
-const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 
-const publicPath = './';
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+// static files related
+const publicPath = '../';
+const outputPath = 'static/';
 const publicUrl = publicPath.slice(0, -1);
-const env = getClientEnvironment(publicUrl);
-const shouldUseRelativeAssetPaths = publicPath === './';
+const useRelativePath = publicPath === './' || publicPath === '../';
 
+// env related
+const env = getClientEnvironment(publicUrl);
+const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 if (env.stringified['process.env'].NODE_ENV !== '"production"') {
   throw new Error('Production builds must have NODE_ENV=production.');
 }
@@ -47,12 +52,10 @@ const styleLoader = {
   },
 };
 
-const ComponentList = ['Button', 'Icon', 'Fab', 'IconToggle', 'Card'];
-
-module.exports = ComponentList.map((Component) => {
-  const cssFilename = `${Component}/${Component}.css?[contenthash:8]`;
-  const sassFileName = `${Component}/${Component}.css?[hash:8]`;
-  const extractTextPluginOptions = shouldUseRelativeAssetPaths
+module.exports = (component) => {
+  const cssFilename = `${component}.css`;
+  const sassFileName = `${component}.css`;
+  const extractTextPluginOptions = useRelativePath
     ? { publicPath: Array(cssFilename.split('/').length).join('../') }
     : {};
   const ExtractCSS = new ExtractTextPlugin({ filename: cssFilename });
@@ -62,16 +65,16 @@ module.exports = ComponentList.map((Component) => {
     bail: true,
     devtool: shouldUseSourceMap ? 'source-map' : false,
     entry: {
-      index: path.resolve(paths.appBuildSrc, `${Component}/index.js`),
+      index: path.resolve(paths.appLib, component, 'index.js'),
     },
     output: {
-      path: paths.appBuild,
-      filename: `${Component}/[name].js`,
+      path: path.resolve(paths.appBuild, component),
+      filename: '[name].js',
       publicPath,
       library: 'mrcw',
       libraryTarget: 'commonjs2',
       devtoolModuleFilenameTemplate: info =>
-        path.relative(paths.appBuildSrc, info.absoluteResourcePath).replace(/\\/g, '/'),
+        path.relative(paths.appLib, info.absoluteResourcePath).replace(/\\/g, '/'),
     },
     externals: [
       {
@@ -175,7 +178,7 @@ module.exports = ComponentList.map((Component) => {
       alias: {
         'react-native': 'react-native-web',
       },
-      plugins: [new ModuleScopePlugin(paths.appBuildSrc, [paths.appPackageJson])],
+      plugins: [new ModuleScopePlugin(paths.appLib, [paths.appPackageJson])],
     },
     module: {
       strictExportPresence: true,
@@ -193,21 +196,21 @@ module.exports = ComponentList.map((Component) => {
               },
             },
           ],
-          include: paths.appBuildSrc,
+          include: paths.appLib,
         },
         {
           oneOf: [
             {
-              test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.eot$/, /\.ttf$/, /\.woff?2$/],
+              test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.eot$/, /\.ttf$/, /\.woff2?$/],
               loader: require.resolve('url-loader'),
               options: {
                 limit: 10000,
-                name: 'static/[name].[ext]?[hash:8]',
+                name: `${publicPath}${outputPath}[name].[ext]`,
               },
             },
             {
               test: /\.(js|jsx|mjs)$/,
-              include: paths.appBuildSrc,
+              include: paths.appLib,
               loader: require.resolve('babel-loader'),
               options: {
                 compact: true,
@@ -247,7 +250,10 @@ module.exports = ComponentList.map((Component) => {
               loader: require.resolve('file-loader'),
               exclude: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/],
               options: {
-                name: 'static/[name].[ext]?[hash:8]',
+                name: '[name].[ext]',
+                outputPath,
+                useRelativePath,
+                publicPath,
               },
             },
           ],
@@ -258,6 +264,10 @@ module.exports = ComponentList.map((Component) => {
       new webpack.DefinePlugin(env.stringified),
       ExtractCSS,
       ExtractSASS,
+      new CopyWebpackPlugin([{
+        from: path.resolve(paths.appLib, component, `${component}.scss`),
+        to: path.resolve(paths.appBuild, component, `${component}.scss`),
+      }]),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
     optimization: {
@@ -271,4 +281,4 @@ module.exports = ComponentList.map((Component) => {
       child_process: 'empty',
     },
   };
-});
+};
