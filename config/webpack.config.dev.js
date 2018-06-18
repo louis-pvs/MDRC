@@ -56,9 +56,9 @@ module.exports = {
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx', '.scss', '.sass'],
     alias: {
       'react-native': 'react-native-web',
-      lib: paths.appBuildSrc,
+      lib: paths.appLib,
     },
-    plugins: [new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson])],
+    plugins: [new ModuleScopePlugin(paths.servedPath)],
   },
   module: {
     strictExportPresence: true,
@@ -76,7 +76,7 @@ module.exports = {
             },
           },
         ],
-        include: [paths.appSrc, paths.appBuildSrc],
+        include: [paths.appSrc, paths.appLib],
       },
       {
         oneOf: [
@@ -90,7 +90,7 @@ module.exports = {
           },
           {
             test: /\.(js|jsx|mjs)$/,
-            include: [paths.appSrc, paths.appBuildSrc],
+            include: [paths.appSrc, paths.appLib],
             loader: require.resolve('babel-loader'),
             options: {
               cacheDirectory: true,
