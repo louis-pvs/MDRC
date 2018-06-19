@@ -102,6 +102,15 @@
     "@material/ripple" "^0.36.0"
     "@material/theme" "^0.35.0"
 
+"@material/list@^0.36.0":
+  version "0.36.0"
+  resolved "https://registry.yarnpkg.com/@material/list/-/list-0.36.0.tgz#a8bb3799ebcf569f17fb9ef3e710e4145727c851"
+  dependencies:
+    "@material/ripple" "^0.36.0"
+    "@material/rtl" "^0.36.0"
+    "@material/theme" "^0.35.0"
+    "@material/typography" "^0.35.0"
+
 "@material/ripple@^0.36.0":
   version "0.36.0"
   resolved "https://registry.yarnpkg.com/@material/ripple/-/ripple-0.36.0.tgz#262491c37643c3aabad93cd033698622c70beb13"
