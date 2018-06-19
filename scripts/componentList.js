@@ -1,1 +1,1 @@
-module.exports = ['button', 'icon', 'fab', 'icon-toggle', 'card'];
+module.exports = ['button', 'icon', 'fab', 'icon-toggle', 'card', 'chips'];
