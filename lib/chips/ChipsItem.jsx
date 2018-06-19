@@ -2,6 +2,8 @@ import React, { PureComponent, cloneElement } from 'react';
 import { oneOfType, arrayOf, node, bool, string, func } from 'prop-types';
 import classnames from 'classnames';
 
+import omit from '../utils/omit';
+
 class ChipsItem extends PureComponent {
   static propTypes = {
     checkable: bool,
@@ -90,7 +92,13 @@ class ChipsItem extends PureComponent {
       'mdc-chip--selected': this.props.selected,
     });
     return (
-      <div ref={this.init} className={className} role="button" tabIndex="0">
+      <div
+        ref={this.init}
+        className={className}
+        role="button"
+        tabIndex="0"
+        {...omit(this.props, Object.keys(ChipsItem.propTypes))}
+      >
         {this.renderLeadingIcon()}
         {this.renderChecker()}
         <div className="mdc-chip__text">{this.props.children}</div>
