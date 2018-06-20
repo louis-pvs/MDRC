@@ -3,23 +3,14 @@ import { string, bool } from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
+import notTruthyWith from '../utils/notTruthyWith';
 import { Button } from '../';
 
 class DialogButton extends PureComponent {
   static propTypes = {
-    accept(props, propName, componentName) {
-      if (props[propName] && props.cancel) {
-        return new Error(`props '${propName}' and 'cancel' can't be both 'true' in ${componentName}, choose one`);
-      }
-      return false;
-    },
+    accept: (...validates) => notTruthyWith(['cancel'], ...validates),
     action: bool,
-    cancel(props, propName, componentName) {
-      if (props[propName] && props.accept) {
-        return new Error(`props '${propName}' and 'accept' can't be both 'true' in ${componentName}, choose one`);
-      }
-      return false;
-    },
+    cancel: (...validates) => notTruthyWith(['accept'], ...validates),
     className: string,
   };
   static defaultProps = {

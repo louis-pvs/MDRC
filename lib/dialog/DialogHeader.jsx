@@ -20,11 +20,12 @@ class DialogHeader extends PureComponent {
     const Tag = this.props.htmlTag;
 
     return (
-      <header
-        className="mdc-dialog__header"
-        {...omit(this.props, Object.keys(DialogHeader.propTypes))}
-      >
-        <Tag id="mdc-dialog-with-list-label" className={className}>
+      <header className="mdc-dialog__header">
+        <Tag
+          id="mdc-dialog-with-list-label"
+          className={className}
+          {...omit(this.props, Object.keys(DialogHeader.propTypes))}
+        >
           {this.props.children}
         </Tag>
       </header>

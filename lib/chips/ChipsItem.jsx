@@ -1,8 +1,9 @@
-import React, { PureComponent, cloneElement, isValidElement } from 'react';
+import React, { PureComponent } from 'react';
 import { oneOfType, arrayOf, node, bool, string, func } from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
+import cloneChildWithClassName from '../utils/cloneChildWithClassName';
 
 class ChipsItem extends PureComponent {
   static propTypes = {
@@ -27,8 +28,10 @@ class ChipsItem extends PureComponent {
   };
 
   componentWillUnmount() {
-    this.ref.removeEventListener('MDCChip:interaction', this.onInteract);
-    this.ref.removeEventListener('MDCChip:removal', this.onRemove);
+    if (this.ref) {
+      this.ref.removeEventListener('MDCChip:interaction', this.onInteract);
+      this.ref.removeEventListener('MDCChip:removal', this.onRemove);
+    }
   }
 
   onInteract = () => {
@@ -67,30 +70,22 @@ class ChipsItem extends PureComponent {
 
   renderLeadingIcon() {
     const { leadingIcon } = this.props;
-    if (isValidElement(leadingIcon)) {
-      if (!leadingIcon.props) return leadingIcon;
-
-      const className = classnames(
-        'mdc-chip__icon',
-        'mdc-chip__icon--leading',
-        leadingIcon.props.className,
+    if (leadingIcon) {
+      return cloneChildWithClassName(
+        leadingIcon,
+        classnames('mdc-chip__icon', 'mdc-chip__icon--leading'),
       );
-      return cloneElement(leadingIcon, { className });
     }
     return null;
   }
 
   renderTrailingIcon() {
     const { trailingIcon } = this.props;
-    if (isValidElement(trailingIcon)) {
-      if (!trailingIcon.props) return trailingIcon;
-
-      const className = classnames(
-        'mdc-chip__icon',
-        'mdc-chip__icon--trailing',
-        trailingIcon.props.className,
+    if (trailingIcon) {
+      return cloneChildWithClassName(
+        trailingIcon,
+        classnames('mdc-chip__icon', 'mdc-chip__icon--trailing'),
       );
-      return cloneElement(trailingIcon, { className });
     }
     return null;
   }

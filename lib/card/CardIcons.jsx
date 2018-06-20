@@ -1,9 +1,10 @@
-import React, { PureComponent, cloneElement, isValidElement } from 'react';
+import React, { PureComponent } from 'react';
 import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
 import classnames from 'classnames';
 
 import './card.scss';
 import omit from '../utils/omit';
+import cloneChildWithClassName from '../utils/cloneChildWithClassName';
 
 class CardIcons extends PureComponent {
   static propTypes = {
@@ -19,25 +20,12 @@ class CardIcons extends PureComponent {
     htmlTag: 'div',
   };
 
-  cloneChild = (child, key) => {
-    if (isValidElement(child)) {
-      if (!child.props) return cloneElement(child, { key });
-      const className = classnames(
-        'mdc-card__action',
-        'mdc-card__action--icon',
-        child.props.className,
-      );
-      return cloneElement(child, { className, key });
-    }
-    return null;
-  };
-
   renderChild() {
     if (!this.props.appendClassToChild || !this.props.children) return this.props.children;
-    else if (Array.isArray(this.props.children)) {
-      return this.props.children.map(this.cloneChild);
-    }
-    return this.cloneChild(this.props.children);
+    return cloneChildWithClassName(
+      this.props.children,
+      classnames('mdc-card__action', 'mdc-card__action--icon'),
+    );
   }
 
   render() {
