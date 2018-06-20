@@ -6,22 +6,26 @@ import omit from '../utils/omit';
 
 class ListSubheader extends PureComponent {
   static propTypes = {
-    children: oneOfType([node, string, arrayOf(node, string)]),
+    children: oneOfType([node, arrayOf(node)]),
     className: string,
     secondary: bool,
+    htmlTag: string,
   };
   static defaultProps = {
     children: null,
     className: null,
     secondary: false,
+    htmlTag: 'h5',
   };
 
   render() {
     const className = classnames('mdc-list-group__subheader', this.props.className);
+    const Tag = this.props.htmlTag;
+
     return (
-      <h3 className={className} {...omit(this.props, Object.keys(ListSubheader.propTypes))}>
+      <Tag className={className} {...omit(this.props, Object.keys(ListSubheader.propTypes))}>
         {this.props.children}
-      </h3>
+      </Tag>
     );
   }
 }

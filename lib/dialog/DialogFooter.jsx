@@ -5,20 +5,24 @@ import omit from '../utils/omit';
 
 class DialogFooter extends PureComponent {
   static propTypes = {
-    children: oneOfType([node, string, arrayOf(node, string)]),
+    children: oneOfType([node, arrayOf(node)]),
     className: string,
+    htmlTag: string,
   };
   static defaultProps = {
     children: null,
     className: null,
+    htmlTag: 'footer',
   };
 
   render() {
     const className = classnames('mdc-dialog__footer', this.props.className);
+    const Tag = this.props.htmlTag;
+
     return (
-      <footer className={className} {...omit(this.props, Object.keys(DialogFooter.propTypes))}>
+      <Tag className={className} {...omit(this.props, Object.keys(DialogFooter.propTypes))}>
         {this.props.children}
-      </footer>
+      </Tag>
     );
   }
 }

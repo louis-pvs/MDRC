@@ -6,20 +6,24 @@ import omit from '../utils/omit';
 
 class ListGroup extends PureComponent {
   static propTypes = {
-    children: oneOfType([node, string, arrayOf(node, string)]),
+    children: oneOfType([node, arrayOf(node)]),
     className: string,
+    htmlTag: string,
   };
   static defaultProps = {
     children: null,
     className: null,
+    htmlTag: 'div',
   };
 
   render() {
     const className = classnames('mdc-list-group', this.props.className);
+    const Tag = this.props.htmlTag;
+
     return (
-      <div className={className} {...omit(this.props, Object.keys(ListGroup.propTypes))}>
+      <Tag className={className} {...omit(this.props, Object.keys(ListGroup.propTypes))}>
         {this.props.children}
-      </div>
+      </Tag>
     );
   }
 }

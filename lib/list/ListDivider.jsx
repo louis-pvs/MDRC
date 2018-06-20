@@ -7,13 +7,15 @@ import omit from '../utils/omit';
 class ListDivider extends PureComponent {
   static propTypes = {
     className: string,
-    padded: bool,
     inset: bool,
+    padded: bool,
+    htmlTag: string,
   };
   static defaultProps = {
     className: null,
-    padded: false,
     inset: false,
+    padded: false,
+    htmlTag: 'li',
   };
 
   render() {
@@ -25,8 +27,10 @@ class ListDivider extends PureComponent {
       },
       this.props.className,
     );
+    const Tag = this.props.htmlTag;
+
     return (
-      <li
+      <Tag
         role="separator"
         className={className}
         {...omit(this.props, Object.keys(ListDivider.propTypes))}

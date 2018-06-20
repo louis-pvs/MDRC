@@ -9,11 +9,12 @@ import omit from '../utils/omit';
 class Fab extends PureComponent {
   static propTypes = {
     absolute: bool,
-    children: oneOfType([node, string, arrayOf(node, string)]),
+    children: oneOfType([node, arrayOf(node)]),
     className: string,
     exited: bool,
     mini: bool,
     ripple: bool,
+    htmlTag: string,
   };
   static defaultProps = {
     absolute: true,
@@ -22,6 +23,7 @@ class Fab extends PureComponent {
     exited: false,
     mini: false,
     ripple: true,
+    htmlTag: 'button',
   };
 
   ref = null;
@@ -45,14 +47,12 @@ class Fab extends PureComponent {
       },
       this.props.className,
     );
+    const Tag = this.props.htmlTag;
+
     return (
-      <button
-        ref={this.init}
-        className={className}
-        {...omit(this.props, Object.keys(Fab.propTypes))}
-      >
+      <Tag ref={this.init} className={className} {...omit(this.props, Object.keys(Fab.propTypes))}>
         {this.props.children}
-      </button>
+      </Tag>
     );
   }
 }

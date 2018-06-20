@@ -6,22 +6,22 @@ import omit from '../utils/omit';
 
 class SubtitleTypography extends PureComponent {
   static propTypes = {
-    children: oneOfType([node, string, arrayOf(node, string)]),
-    tagName: string,
+    children: oneOfType([node, arrayOf(node)]),
+    htmlTag: string,
     size: oneOf([1, 2, '1', '2']),
   };
   static defaultProps = {
     children: null,
-    tagName: 'h5',
+    htmlTag: 'h5',
     size: 1,
   };
 
   render() {
-    const { tagName, size } = this.props;
+    const { htmlTag, size } = this.props;
 
     return (
       <BaseTypography
-        tagName={tagName}
+        htmlTag={htmlTag}
         className={`mdc-typography--subtitle${size}`}
         {...omit(this.props, Object.keys(SubtitleTypography.propTypes))}
       >
