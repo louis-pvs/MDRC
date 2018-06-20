@@ -6,22 +6,23 @@ import omit from '../utils/omit';
 
 class BaseTypography extends PureComponent {
   static propTypes = {
-    children: oneOfType([node, string, arrayOf(node, string)]),
+    children: oneOfType([node, arrayOf(node)]),
     className: string,
-    tagName: string,
+    htmlTag: string,
   };
   static defaultProps = {
     children: null,
     className: null,
-    tagName: 'p',
+    htmlTag: 'p',
   };
   render() {
     const className = classnames('mdc-typography', this.props.className);
-    const TagName = this.props.tagName;
+    const Tag = this.props.htmlTag;
+
     return (
-      <TagName className={className} {...omit(this.props, Object.keys(BaseTypography.propTypes))}>
+      <Tag className={className} {...omit(this.props, Object.keys(BaseTypography.propTypes))}>
         {this.props.children}
-      </TagName>
+      </Tag>
     );
   }
 }

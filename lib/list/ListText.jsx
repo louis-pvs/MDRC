@@ -6,14 +6,16 @@ import omit from '../utils/omit';
 
 class ListText extends PureComponent {
   static propTypes = {
-    children: oneOfType([node, string, arrayOf(node, string)]),
+    children: oneOfType([node, arrayOf(node)]),
     className: string,
     secondary: bool,
+    htmlTag: string,
   };
   static defaultProps = {
     children: null,
     className: null,
     secondary: false,
+    htmlTag: 'span',
   };
 
   render() {
@@ -24,10 +26,12 @@ class ListText extends PureComponent {
       },
       this.props.className,
     );
+    const Tag = this.props.htmlTag;
+
     return (
-      <span className={className} {...omit(this.props, Object.keys(ListText.propTypes))}>
+      <Tag className={className} {...omit(this.props, Object.keys(ListText.propTypes))}>
         {this.props.children}
-      </span>
+      </Tag>
     );
   }
 }

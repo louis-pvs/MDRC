@@ -1,4 +1,4 @@
-import React, { PureComponent, cloneElement } from 'react';
+import React, { PureComponent, cloneElement, isValidElement } from 'react';
 import { oneOfType, arrayOf, node, bool, string, func } from 'prop-types';
 import classnames from 'classnames';
 
@@ -7,7 +7,8 @@ import omit from '../utils/omit';
 class ChipsItem extends PureComponent {
   static propTypes = {
     checkable: bool,
-    children: oneOfType([node, string, arrayOf(node, string)]),
+    children: oneOfType([node, arrayOf(node)]),
+    htmlTag: string,
     leadingIcon: node,
     onInteract: func,
     onRemove: func,
@@ -17,6 +18,7 @@ class ChipsItem extends PureComponent {
   static defaultProps = {
     checkable: false,
     children: null,
+    htmlTag: 'div',
     leadingIcon: null,
     onInteract: () => {},
     onRemove: () => {},
@@ -65,34 +67,42 @@ class ChipsItem extends PureComponent {
 
   renderLeadingIcon() {
     const { leadingIcon } = this.props;
-    if (!leadingIcon || !leadingIcon.props) return leadingIcon;
-    const className = classnames(
-      leadingIcon.props.className,
-      'mdc-chip__icon',
-      'mdc-chip__icon--leading',
-    );
-    const props = { className };
-    return cloneElement(leadingIcon, props);
+    if (isValidElement(leadingIcon)) {
+      if (!leadingIcon.props) return leadingIcon;
+
+      const className = classnames(
+        'mdc-chip__icon',
+        'mdc-chip__icon--leading',
+        leadingIcon.props.className,
+      );
+      return cloneElement(leadingIcon, { className });
+    }
+    return null;
   }
 
   renderTrailingIcon() {
     const { trailingIcon } = this.props;
-    if (!trailingIcon || !trailingIcon.props) return trailingIcon;
-    const className = classnames(
-      trailingIcon.props.className,
-      'mdc-chip__icon',
-      'mdc-chip__icon--trailing',
-    );
-    const props = { className };
-    return cloneElement(trailingIcon, props);
+    if (isValidElement(trailingIcon)) {
+      if (!trailingIcon.props) return trailingIcon;
+
+      const className = classnames(
+        'mdc-chip__icon',
+        'mdc-chip__icon--trailing',
+        trailingIcon.props.className,
+      );
+      return cloneElement(trailingIcon, { className });
+    }
+    return null;
   }
 
   render() {
     const className = classnames('mdc-chip', {
       'mdc-chip--selected': this.props.selected,
     });
+    const Tag = this.props.htmlTag;
+
     return (
-      <div
+      <Tag
         ref={this.init}
         className={className}
         role="button"
@@ -103,7 +113,7 @@ class ChipsItem extends PureComponent {
         {this.renderChecker()}
         <div className="mdc-chip__text">{this.props.children}</div>
         {this.renderTrailingIcon()}
-      </div>
+      </Tag>
     );
   }
 }

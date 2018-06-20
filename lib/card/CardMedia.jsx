@@ -8,8 +8,9 @@ import omit from '../utils/omit';
 class CardMedia extends PureComponent {
   static propTypes = {
     absoluteContent: bool,
-    children: oneOfType([node, string, arrayOf(node, string)]),
+    children: oneOfType([node, arrayOf(node)]),
     className: string,
+    htmlTag: string,
     sixteenByNine: bool,
     square: bool,
   };
@@ -17,6 +18,7 @@ class CardMedia extends PureComponent {
     absoluteContent: true,
     children: null,
     className: null,
+    htmlTag: 'div',
     sixteenByNine: false,
     square: false,
   };
@@ -35,10 +37,12 @@ class CardMedia extends PureComponent {
       },
       this.props.className,
     );
+    const Tag = this.props.htmlTag;
+
     return (
-      <div className={className} {...omit(this.props, Object.keys(CardMedia.propTypes))}>
+      <Tag className={className} {...omit(this.props, Object.keys(CardMedia.propTypes))}>
         {this.renderContent()}
-      </div>
+      </Tag>
     );
   }
 }

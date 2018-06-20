@@ -6,22 +6,22 @@ import omit from '../utils/omit';
 
 class HeadlineTypography extends PureComponent {
   static propTypes = {
-    children: oneOfType([node, string, arrayOf(node, string)]),
-    tagName: string,
+    children: oneOfType([node, arrayOf(node)]),
+    htmlTag: string,
     size: oneOf([1, 2, 3, 4, 5, 6, '1', '2', '3', '4', '5', '6']),
   };
   static defaultProps = {
     children: null,
-    tagName: null,
+    htmlTag: null,
     size: 1,
   };
 
   render() {
-    const tagName = this.props.tagName || `h${this.props.size}`;
+    const htmlTag = this.props.htmlTag || `h${this.props.size}`;
 
     return (
       <BaseTypography
-        tagName={tagName}
+        htmlTag={htmlTag}
         className={`mdc-typography--headline${this.props.size}`}
         {...omit(this.props, Object.keys(HeadlineTypography.propTypes))}
       >

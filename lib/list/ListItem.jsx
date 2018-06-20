@@ -7,15 +7,17 @@ import omit from '../utils/omit';
 class ListItem extends PureComponent {
   static propTypes = {
     activated: bool,
-    children: oneOfType([node, string, arrayOf(node, string)]),
+    children: oneOfType([node, arrayOf(node)]),
     className: string,
     selected: bool,
+    htmlTag: string,
   };
   static defaultProps = {
     activated: false,
     children: null,
     className: null,
     selected: false,
+    htmlTag: 'li',
   };
 
   render() {
@@ -27,10 +29,12 @@ class ListItem extends PureComponent {
       },
       this.props.className,
     );
+    const Tag = this.props.htmlTag;
+
     return (
-      <li className={className} {...omit(this.props, Object.keys(ListItem.propTypes))}>
+      <Tag className={className} {...omit(this.props, Object.keys(ListItem.propTypes))}>
         {this.props.children}
-      </li>
+      </Tag>
     );
   }
 }

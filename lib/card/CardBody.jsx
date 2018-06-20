@@ -7,13 +7,15 @@ import omit from '../utils/omit';
 
 class CardBody extends PureComponent {
   static propTypes = {
-    children: oneOfType([node, string, arrayOf(node, string)]),
+    children: oneOfType([node, arrayOf(node)]),
     className: string,
+    htmlTag: string,
     outlined: bool,
   };
   static defaultProps = {
     children: null,
     className: null,
+    htmlTag: 'div',
     outlined: false,
   };
 
@@ -25,10 +27,12 @@ class CardBody extends PureComponent {
       },
       this.props.className,
     );
+    const Tag = this.props.htmlTag;
+
     return (
-      <div className={className} {...omit(this.props, Object.keys(CardBody.propTypes))}>
+      <Tag className={className} {...omit(this.props, Object.keys(CardBody.propTypes))}>
         {this.props.children}
-      </div>
+      </Tag>
     );
   }
 }
