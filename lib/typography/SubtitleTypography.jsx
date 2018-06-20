@@ -4,26 +4,26 @@ import { oneOfType, node, string, arrayOf, oneOf } from 'prop-types';
 import BaseTypography from './BaseTypography';
 import omit from '../utils/omit';
 
-class HeadlineTypography extends PureComponent {
+class SubtitleTypography extends PureComponent {
   static propTypes = {
     children: oneOfType([node, string, arrayOf(node, string)]),
     tagName: string,
-    size: oneOf([1, 2, 3, 4, 5, 6, '1', '2', '3', '4', '5', '6']),
+    size: oneOf([1, 2, '1', '2']),
   };
   static defaultProps = {
     children: null,
-    tagName: null,
+    tagName: 'h5',
     size: 1,
   };
 
   render() {
-    const tagName = this.props.tagName || `h${this.props.size}`;
+    const { tagName, size } = this.props;
 
     return (
       <BaseTypography
         tagName={tagName}
-        className={`mdc-typography--headline${this.props.size}`}
-        {...omit(this.props, Object.keys(HeadlineTypography.propTypes))}
+        className={`mdc-typography--subtitle${size}`}
+        {...omit(this.props, Object.keys(SubtitleTypography.propTypes))}
       >
         {this.props.children}
       </BaseTypography>
@@ -31,4 +31,4 @@ class HeadlineTypography extends PureComponent {
   }
 }
 
-export default HeadlineTypography;
+export default SubtitleTypography;
