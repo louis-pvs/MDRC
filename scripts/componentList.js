@@ -6,6 +6,7 @@ module.exports = [
   'card',
   'chips',
   'dialog',
+  'drawer',
   'list',
   'typography',
 ];
