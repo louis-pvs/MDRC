@@ -1,37 +1,30 @@
-import React, { PureComponent, cloneElement } from 'react';
+import React, { PureComponent } from 'react';
 import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
 import classnames from 'classnames';
 
 import './card.scss';
 import omit from '../utils/omit';
+import cloneChildWithClassName from '../utils/cloneChildWithClassName';
 
 class CardActions extends PureComponent {
   static propTypes = {
-    children: oneOfType([node, string, arrayOf(node, string)]),
+    appendClassToChild: bool,
+    children: oneOfType([node, arrayOf(node)]),
     className: string,
     full: bool,
-    appendClassToChild: bool,
+    htmlTag: string,
   };
   static defaultProps = {
+    appendClassToChild: true,
     children: null,
     className: null,
     full: false,
-    appendClassToChild: true,
-  };
-
-  cloneChild = (child, key) => {
-    if (!child || !child.props) return child;
-    const className = classnames(child.props.className, 'mdc-card__action');
-    const props = { className, key };
-    return cloneElement(child, props);
+    htmlTag: 'div',
   };
 
   renderChild() {
     if (!this.props.appendClassToChild || !this.props.children) return this.props.children;
-    else if (Array.isArray(this.props.children)) {
-      return this.props.children.map(this.cloneChild);
-    }
-    return this.cloneChild(this.props.children);
+    return cloneChildWithClassName(this.props.children, 'mdc-card__action');
   }
 
   render() {
@@ -42,10 +35,12 @@ class CardActions extends PureComponent {
       },
       this.props.className,
     );
+    const Tag = this.props.htmlTag;
+
     return (
-      <div className={className} {...omit(this.props, Object.keys(CardActions.propTypes))}>
+      <Tag className={className} {...omit(this.props, Object.keys(CardActions.propTypes))}>
         {this.renderChild()}
-      </div>
+      </Tag>
     );
   }
 }

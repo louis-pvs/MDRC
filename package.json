@@ -1,6 +1,6 @@
 {
   "name": "mrcw",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "author": "Louis Phang",
   "engines": {
     "node": "8.11.1",
@@ -21,13 +21,18 @@
     "@babel/polyfill": "^7.0.0-beta.49",
     "@material/button": "^0.36.0",
     "@material/card": "^0.36.0",
+    "@material/chips": "^0.36.0",
+    "@material/dialog": "^0.36.1",
+    "@material/drawer": "^0.36.1",
     "@material/fab": "^0.36.0",
     "@material/icon-toggle": "^0.36.0",
+    "@material/list": "^0.36.0",
     "@material/ripple": "^0.36.0",
     "@material/theme": "^0.35.0",
+    "@material/typography": "^0.35.0",
     "classnames": "^2.2.6",
     "material-design-icons": "^3.0.1",
-    "mrcw": "^0.0.5",
+    "mrcw": "^0.0.7",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0"

@@ -2,39 +2,38 @@ import React, { PureComponent } from 'react';
 import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
 import classnames from 'classnames';
 
-import './card.scss';
 import omit from '../utils/omit';
 
-class CardBody extends PureComponent {
+class ListGraphic extends PureComponent {
   static propTypes = {
     children: oneOfType([node, arrayOf(node)]),
     className: string,
+    meta: bool,
     htmlTag: string,
-    outlined: bool,
   };
   static defaultProps = {
     children: null,
     className: null,
-    htmlTag: 'div',
-    outlined: false,
+    meta: false,
+    htmlTag: 'span',
   };
 
   render() {
     const className = classnames(
-      'mdc-card',
       {
-        'mdc-card--outlined': this.props.outlined,
+        'mdc-list-item__graphic': !this.props.meta,
+        'mdc-list-item__meta': this.props.meta,
       },
       this.props.className,
     );
     const Tag = this.props.htmlTag;
 
     return (
-      <Tag className={className} {...omit(this.props, Object.keys(CardBody.propTypes))}>
+      <Tag className={className} {...omit(this.props, Object.keys(ListGraphic.propTypes))}>
         {this.props.children}
       </Tag>
     );
   }
 }
 
-export default CardBody;
+export default ListGraphic;
