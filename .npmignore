@@ -1,0 +1,18 @@
+## dev folder
+/src
+/node_modules
+
+## project script
+/config
+/scripts
+
+## mics
+.docz
+.gitignore
+.sass-cache
+.npmignore
+.gitignore
+
+##
+yarn-error.log
+yarn.lock

@@ -1,0 +1,17 @@
+@import "../styles/variables";
+@import "@material/fab/mdc-fab";
+
+$name: $prefix + "fab";
+
+.#{$name}--absolute {
+  bottom: 1rem;
+  position: absolute;
+  right: 1rem;
+
+  @media (min-width: 1024px) {
+    & {
+      bottom: 1.5rem;
+      right: 1.5rem;
+    }
+  }
+}

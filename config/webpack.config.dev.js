@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
-// const WatchMissingNodeModulesPlugin = require("react-dev-utils/WatchMissingNodeModulesPlugin");
 const eslintFormatter = require('eslint-friendly-formatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
@@ -57,9 +56,9 @@ module.exports = {
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx', '.scss', '.sass'],
     alias: {
       'react-native': 'react-native-web',
-      Components: paths.appBuildIndexJs,
+      lib: paths.appLib,
     },
-    plugins: [new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson, paths.appBuildIndexJs])],
+    plugins: [new ModuleScopePlugin(paths.servedPath)],
   },
   module: {
     strictExportPresence: true,
@@ -77,7 +76,7 @@ module.exports = {
             },
           },
         ],
-        include: [paths.appSrc, paths.appBuildSrc],
+        include: [paths.appSrc, paths.appLib],
       },
       {
         oneOf: [
@@ -91,7 +90,7 @@ module.exports = {
           },
           {
             test: /\.(js|jsx|mjs)$/,
-            include: [paths.appSrc, paths.appBuildSrc],
+            include: [paths.appSrc, paths.appLib],
             loader: require.resolve('babel-loader'),
             options: {
               cacheDirectory: true,
@@ -134,7 +133,6 @@ module.exports = {
     new webpack.DefinePlugin(env.stringified),
     new webpack.HotModuleReplacementPlugin(),
     new CaseSensitivePathsPlugin(),
-    // new WatchMissingNodeModulesPlugin(paths.appNodeModules),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   ],
   node: {
