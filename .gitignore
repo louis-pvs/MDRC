@@ -10,10 +10,6 @@
 /dist
 /src
 
-# development
-/src/App.js
-/src/index.js
-
 # misc
 .DS_Store
 .env.local
@@ -27,12 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # Docs
-/lib/core/metadata.js
-/lib/core/MetadataBlog.js
-
-/website/translated_docs
-/website/build/
-/website/yarn.lock
-/website/node_modules
-/website/i18n/*
-/website/config/*
+.docz/dist
