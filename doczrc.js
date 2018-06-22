@@ -1,4 +1,5 @@
 // doczrc.js
+const path = require('path');
 const autoprefixer = require('autoprefixer');
 const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 const paths = require('./config/paths');
@@ -24,6 +25,7 @@ const cssLoader = {
 };
 
 export default {
+  dist: paths.doc,
   title: 'mrcw',
   description: 'A layer of React wrapper for official Material Components',
   themeConfig: {
@@ -32,6 +34,8 @@ export default {
     },
   },
   modifyBundlerConfig: function modifier(config) {
+    config.resolve.alias.react = path.resolve(paths.appNodeModules, 'react');
+
     config.module.rules.push({
       test: /\.(sa|sc|c)ss$/,
       use: [

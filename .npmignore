@@ -1,6 +1,8 @@
 ## dev folder
 /src
 /node_modules
+/docs
+/public
 
 ## project script
 /config
@@ -12,6 +14,8 @@
 .sass-cache
 .npmignore
 .gitignore
+.eslintignore
+doczrc.js
 
 ##
 yarn-error.log
