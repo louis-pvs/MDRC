@@ -3,36 +3,35 @@ import { string, bool } from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
+import { cssClasses, usedProps, enums } from './constants';
 import notTruthyWith from '../utils/notTruthyWith';
-import { Button } from '../';
+import Button from '../button';
 
 class DialogButton extends PureComponent {
   static propTypes = {
-    accept: (...validates) => notTruthyWith(['cancel'], ...validates),
+    [enums.ACCEPT]: (...validates) => notTruthyWith([enums.CANCEL], ...validates),
+    [enums.CANCEL]: (...validates) => notTruthyWith([enums.ACCEPT], ...validates),
     action: bool,
-    cancel: (...validates) => notTruthyWith(['accept'], ...validates),
     className: string,
   };
   static defaultProps = {
-    accept: false,
+    [enums.ACCEPT]: false,
+    [enums.CANCEL]: false,
     action: false,
-    cancel: false,
     className: null,
   };
 
   render() {
     const classNames = classnames(
-      'dialog__footer__button',
+      cssClasses.BUTTON,
       {
-        'mdc-dialog__footer__button--accept': this.props.accept,
-        'mdc-dialog__footer__button--cancel': this.props.cancel,
-        'mdc-dialog__action': this.props.action,
+        [cssClasses.ACCEPT]: this.props[enums.ACCEPT],
+        [cssClasses.ACTION]: this.props.action,
+        [cssClasses.CANCEL]: this.props[enums.CANCEL],
       },
       this.props.className,
     );
-    return (
-      <Button {...omit(this.props, Object.keys(DialogButton.propTypes))} className={classNames} />
-    );
+    return <Button className={classNames} {...omit(this.props, usedProps.BUTTON)} />;
   }
 }
 

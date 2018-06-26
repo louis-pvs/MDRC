@@ -3,6 +3,7 @@ import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
+import { cssClasses, usedProps, enums } from './constants';
 
 class ListSubheader extends PureComponent {
   static propTypes = {
@@ -15,15 +16,15 @@ class ListSubheader extends PureComponent {
     children: null,
     className: null,
     secondary: false,
-    htmlTag: 'h5',
+    htmlTag: enums.HEADER,
   };
 
   render() {
-    const className = classnames('mdc-list-group__subheader', this.props.className);
+    const className = classnames(cssClasses.SUBHEADER, this.props.className);
     const Tag = this.props.htmlTag;
 
     return (
-      <Tag className={className} {...omit(this.props, Object.keys(ListSubheader.propTypes))}>
+      <Tag className={className} {...omit(this.props, usedProps.SUBHEADER)}>
         {this.props.children}
       </Tag>
     );

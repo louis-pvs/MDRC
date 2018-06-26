@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
 import classnames from 'classnames';
 
-import './card.scss';
+import { cssClasses, usedProps, enums } from './constants';
 import omit from '../utils/omit';
 
 class CardBody extends PureComponent {
@@ -15,22 +15,22 @@ class CardBody extends PureComponent {
   static defaultProps = {
     children: null,
     className: null,
-    htmlTag: 'div',
+    htmlTag: enums.DIV,
     outlined: false,
   };
 
   render() {
     const className = classnames(
-      'mdc-card',
+      cssClasses.ROOT,
       {
-        'mdc-card--outlined': this.props.outlined,
+        [cssClasses.OUTLINED]: this.props.outlined,
       },
       this.props.className,
     );
     const Tag = this.props.htmlTag;
 
     return (
-      <Tag className={className} {...omit(this.props, Object.keys(CardBody.propTypes))}>
+      <Tag className={className} {...omit(this.props, usedProps.BODY)}>
         {this.props.children}
       </Tag>
     );

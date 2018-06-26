@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf } from 'prop-types';
+import { string, oneOfType, node, arrayOf } from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
 import { cssClasses, usedProps, enums } from './constants';
 
-class CardIcons extends PureComponent {
+class ChipsText extends PureComponent {
   static propTypes = {
     children: oneOfType([node, arrayOf(node)]),
     className: string,
@@ -14,19 +14,19 @@ class CardIcons extends PureComponent {
   static defaultProps = {
     children: null,
     className: null,
-    htmlTag: enums.DIV,
+    htmlTag: enums.SPAN,
   };
 
   render() {
-    const className = classnames(cssClasses.ICONS, this.props.className);
+    const className = classnames(cssClasses.TEXT, this.props.className);
     const Tag = this.props.htmlTag;
 
     return (
-      <Tag className={className} {...omit(this.props, usedProps.ICONS)}>
+      <Tag className={className} {...omit(this.props, usedProps.TEXT)}>
         {this.props.children}
       </Tag>
     );
   }
 }
 
-export default CardIcons;
+export default ChipsText;

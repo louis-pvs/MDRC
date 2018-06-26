@@ -1,7 +1,6 @@
 ---
 name: Icon
 route: /component/icon
-order: 2
 menu: Components
 ---
 
@@ -10,10 +9,33 @@ import Icon from './index.js';
 
 ## Icon
 
-#### Basic Usage
+### Basic Usage
+Icon options from [Material Icons](https://material.io/tools/icons)
 <Playground>
-  <Icon iconName="face" />
+  <Icon iconName="accessibility_new" />
 </Playground>
 
-#### Props
+### Control icon size
+<Playground>
+  <Icon iconName="android" size={18} />
+  <Icon iconName="android" size={24} style={{marginLeft: '1rem'}} />
+  <Icon iconName="android" size={36} style={{marginLeft: '1rem'}} />
+  <Icon iconName="android" size={48} style={{marginLeft: '1rem'}} />
+</Playground>
+
+### Dark mode icon
+<Playground>
+  <Icon iconName="done" mode="dark" />
+  <Icon iconName="close" mode="dark" inactive style={{marginLeft: '1rem'}} />
+</Playground>
+
+### Light mode icon
+<Playground>
+  <div style={{padding: '1rem', backgroundColor: '#518aff', display: 'inline-block' }}>
+    <Icon iconName="whatshot" mode="light" style={{ float: 'left' }} />
+    <Icon iconName="whatshot" mode="light" inactive style={{marginLeft: '1rem', float: 'left' }} />
+  </div>
+</Playground>
+
+### Props
 <PropsTable of={Icon} />

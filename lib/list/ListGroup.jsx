@@ -3,6 +3,7 @@ import { oneOfType, node, string, arrayOf } from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
+import { cssClasses, usedProps, enums } from './constants';
 
 class ListGroup extends PureComponent {
   static propTypes = {
@@ -13,15 +14,15 @@ class ListGroup extends PureComponent {
   static defaultProps = {
     children: null,
     className: null,
-    htmlTag: 'div',
+    htmlTag: enums.DIV,
   };
 
   render() {
-    const className = classnames('mdc-list-group', this.props.className);
+    const className = classnames(cssClasses.GROUP, this.props.className);
     const Tag = this.props.htmlTag;
 
     return (
-      <Tag className={className} {...omit(this.props, Object.keys(ListGroup.propTypes))}>
+      <Tag className={className} {...omit(this.props, usedProps.GROUP)}>
         {this.props.children}
       </Tag>
     );

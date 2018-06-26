@@ -3,7 +3,7 @@ import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
 import classnames from 'classnames';
 import { MDCRipple } from '@material/ripple';
 
-import './card.scss';
+import { cssClasses, usedProps, enums } from './constants';
 import omit from '../utils/omit';
 
 class CardMedia extends PureComponent {
@@ -16,7 +16,7 @@ class CardMedia extends PureComponent {
   static defaultProps = {
     children: null,
     className: null,
-    htmlTag: 'div',
+    htmlTag: enums.DIV,
     ripple: true,
   };
 
@@ -32,15 +32,11 @@ class CardMedia extends PureComponent {
   };
 
   render() {
-    const className = classnames('mdc-card__primary-action', this.props.className);
+    const className = classnames(cssClasses.PRIMARY_ACTION, this.props.className);
     const Tag = this.props.htmlTag;
 
     return (
-      <Tag
-        ref={this.init}
-        className={className}
-        {...omit(this.props, Object.keys(CardMedia.propTypes))}
-      >
+      <Tag ref={this.init} className={className} {...omit(this.props, usedProps.PRIMARY_ACTION)}>
         {this.props.children}
       </Tag>
     );

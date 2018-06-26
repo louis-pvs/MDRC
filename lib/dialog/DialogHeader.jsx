@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { oneOfType, node, string, arrayOf } from 'prop-types';
 import classnames from 'classnames';
 import omit from '../utils/omit';
+import { usedProps, target, enums, cssClasses } from './constants';
 
 class DialogHeader extends PureComponent {
   static propTypes = {
@@ -12,20 +13,16 @@ class DialogHeader extends PureComponent {
   static defaultProps = {
     children: null,
     className: null,
-    htmlTag: 'h5',
+    htmlTag: enums.HEADER,
   };
 
   render() {
-    const className = classnames('mdc-dialog__header__title', this.props.className);
+    const className = classnames(cssClasses.TITLE, this.props.className);
     const Tag = this.props.htmlTag;
 
     return (
       <header className="mdc-dialog__header">
-        <Tag
-          id="mdc-dialog-with-list-label"
-          className={className}
-          {...omit(this.props, Object.keys(DialogHeader.propTypes))}
-        >
+        <Tag id={target.LABEL} className={className} {...omit(this.props, usedProps.HEADER)}>
           {this.props.children}
         </Tag>
       </header>

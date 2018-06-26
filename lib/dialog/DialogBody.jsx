@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
 import classnames from 'classnames';
+
 import omit from '../utils/omit';
+import { cssClasses, enums, usedProps, target } from './constants';
 
 class DialogBody extends PureComponent {
   static propTypes = {
@@ -13,24 +15,20 @@ class DialogBody extends PureComponent {
   static defaultProps = {
     children: null,
     className: null,
-    htmlTag: 'section',
+    htmlTag: enums.SECTION,
     scrollable: true,
   };
 
   render() {
     const className = classnames(
-      'mdc-dialog__body',
-      { 'mdc-dialog__body--scrollable': this.props.scrollable },
+      cssClasses.BODY,
+      { [cssClasses.SCROLL]: this.props.scrollable },
       this.props.className,
     );
     const Tag = this.props.htmlTag;
 
     return (
-      <Tag
-        id="my-mdc-dialog-description"
-        className={className}
-        {...omit(this.props, Object.keys(DialogBody.propTypes))}
-      >
+      <Tag id={target.DESC} className={className} {...omit(this.props, usedProps.BODY)}>
         {this.props.children}
       </Tag>
     );

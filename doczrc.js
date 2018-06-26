@@ -25,12 +25,12 @@ const cssLoader = {
 };
 
 export default {
-  dist: paths.doc,
   title: 'mrcw',
   description: 'A layer of React wrapper for official Material Components',
   themeConfig: {
     colors: {
       primary: '#518aff',
+      gray: '#fafafa',
     },
   },
   modifyBundlerConfig: function modifier(config) {

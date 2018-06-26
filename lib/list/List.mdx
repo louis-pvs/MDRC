@@ -1,0 +1,99 @@
+---
+name: List
+route: /component/list
+menu: Components
+---
+
+import { Playground, PropsTable } from 'docz';
+import Icon from '../icon';
+import List from './index.js';
+
+## List
+
+### Basic usage
+<Playground>
+  <List>
+    <List.Item>
+      List item
+    </List.Item>
+    <List.Item ripple={false}>
+      List item without ripple
+    </List.Item>
+    <List.Item selected>
+      List item selected
+    </List.Item>
+  </List>
+</Playground>
+
+### Grouping the list
+<Playground>
+  <List.Group>
+    <List>
+      <List.Subheader>Single line</List.Subheader>
+      <List.Divider padded />
+      <List.Item>
+        <List.Text>List item</List.Text>
+      </List.Item>
+      <List.Item ripple={false}>
+        <List.Text>List item without ripple</List.Text>
+      </List.Item>
+      <List.Item selected>
+        <List.Text>List item selected</List.Text>
+      </List.Item>
+    </List>
+    <List twoLine>
+      <List.Subheader>Two line</List.Subheader>
+      <List.Divider padded />
+      <List.Item>
+        <List.Text>
+          List item
+          <List.Text secondary>second line</List.Text>
+        </List.Text>
+      </List.Item>
+      <List.Item ripple={false}>
+        <List.Text>
+          List item without ripple
+          <List.Text secondary>second line</List.Text>
+        </List.Text>
+      </List.Item>
+      <List.Item selected>
+        <List.Text>
+          List item selected
+          <List.Text secondary>second line</List.Text>
+        </List.Text>
+      </List.Item>
+    </List>
+    <List avatar twoLine>
+      <List.Subheader>Including Graphic</List.Subheader>
+      <List.Divider padded />
+      <List.Item>
+        <List.Graphic style={{ backgroundImage: 'url(https://picsum.photos/40?random)'}} />
+        <List.Text>
+          List item with graphic
+          <List.Text secondary>second line</List.Text>
+        </List.Text>
+      </List.Item>
+      <List.Divider inset />
+      <List.Item ripple={false}>
+        <List.Graphic style={{ backgroundImage: 'url(https://picsum.photos/40?random)'}} />
+        <List.Text>
+          List item with trailing graphic
+          <List.Text secondary>second line</List.Text>
+        </List.Text>
+        <List.Meta><Icon iconName='info' /></List.Meta>
+      </List.Item>
+      <List.Divider inset />
+      <List.Item selected>
+        <List.Graphic style={{ backgroundImage: 'url(https://picsum.photos/40?random)'}} />
+        <List.Text>
+          Having both leading and trailing graphic
+          <List.Text secondary>second line</List.Text>
+        </List.Text>
+        <List.Meta><Icon iconName='info' /></List.Meta>
+      </List.Item>
+    </List>
+  </List.Group>
+</Playground>
+
+### Props
+<PropsTable of={List} />

@@ -3,6 +3,7 @@ import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
+import { cssClasses, usedProps, enums } from './constants';
 
 class ListGraphic extends PureComponent {
   static propTypes = {
@@ -15,21 +16,21 @@ class ListGraphic extends PureComponent {
     children: null,
     className: null,
     meta: false,
-    htmlTag: 'span',
+    htmlTag: enums.SPAN,
   };
 
   render() {
     const className = classnames(
       {
-        'mdc-list-item__graphic': !this.props.meta,
-        'mdc-list-item__meta': this.props.meta,
+        [cssClasses.GRAPHIC]: !this.props.meta,
+        [cssClasses.META]: this.props.meta,
       },
       this.props.className,
     );
     const Tag = this.props.htmlTag;
 
     return (
-      <Tag className={className} {...omit(this.props, Object.keys(ListGraphic.propTypes))}>
+      <Tag className={className} {...omit(this.props, usedProps.GRAPHIC)}>
         {this.props.children}
       </Tag>
     );

@@ -1,0 +1,112 @@
+---
+name: Card
+route: /component/card
+menu: Components
+---
+
+import { Playground, PropsTable } from 'docz';
+import Card from './index.js';
+import Typography from '../typography';
+import CardBody from './CardBody';
+import CardMedia from './CardMedia';
+import IconToggle from '../icon-toggle';
+
+## Card
+
+### Basic usage
+<Playground>
+  <div style={{ display: 'inline-block' }}>
+    <Card style={{ width: '320px', float: 'left', padding: '1rem', }}>
+      <Typography.Headline size="5" style={{marginBottom: '1rem'}}>Default card</Typography.Headline>
+      <Typography.Body size="2">Mollit adipisicing magna magna sint excepteur mollit cillum ex eiusmod.</Typography.Body>
+    </Card>
+
+    <Card outlined style={{ width: '320px', float: 'left', padding: '1rem', marginLeft: '1rem' }}>
+      <Typography.Headline size="5" style={{marginBottom: '1rem'}}>Outlined card</Typography.Headline>
+      <Typography.Body size="2">Dolor qui cupidatat ullamco sint dolor velit exercitation voluptate occaecat cillum fugiat.</Typography.Body>
+    </Card>
+
+    <Card outlined style={{ width: '320px', float: 'left', margin: '1rem 0' }}>
+      <Card.PrimaryAction style={{padding: '1rem'}}>
+        <Typography.Headline size="5" style={{marginBottom: '1rem'}}>Clickable card</Typography.Headline>
+        <Typography.Body size="2">Ut magna esse esse nostrud cupidatat duis incididunt deserunt ullamco proident consequat.</Typography.Body>
+      </Card.PrimaryAction>
+    </Card>
+  </div>
+</Playground>
+
+### Card props
+<PropsTable of={CardBody} />
+
+### Displaying media on card
+<Playground>
+  <div style={{ display: 'inline-block' }}>
+    <Card style={{ width: '320px', float: 'left' }}>
+      <Card.PrimaryAction>
+        <Card.Media square style={{ backgroundImage: 'url(https://picsum.photos/320?random)', padding: '1rem', textAlign: 'right' }}>
+          <IconToggle
+            style={{ margin: '0 0 0 auto', color: 'white' }}
+            dataToggleOff={{label: 'Favorite', content: 'favorite' }}
+            dataToggleOn={{label: 'Unfavorite', content: 'favorite_border' }}
+          />
+        </Card.Media>
+        <div style={{padding: '1rem'}}>
+          <Typography.Subtitle>Square Size Media</Typography.Subtitle>
+          <Typography.Body size="2">Anim officia ex et incididunt voluptate sint.</Typography.Body>
+        </div>
+      </Card.PrimaryAction>
+    </Card>
+
+    <Card style={{ width: '320px', float: 'left', marginLeft: '1rem' }}>
+      <Card.PrimaryAction>
+        <Card.Media sixteenByNine style={{ backgroundImage: 'url(https://picsum.photos/320/180?random)', padding: '1rem', textAlign: 'right' }}>
+          <Card.Icon
+            style={{ margin: '0 0 0 auto', color: 'white' }}
+            iconName="more_vert"
+          />
+        </Card.Media>
+        <div style={{padding: '1rem'}}>
+          <Typography.Subtitle>16x9 Size Media</Typography.Subtitle>
+          <Typography.Body size="2">Consectetur id elit pariatur pariatur aliquip quis irure fugiat eiusmod et ex. Et nostrud mollit fugiat anim ea qui. Magna nostrud et elit tempor ex laboris aute magna. Consectetur aute ad consequat sit duis aliqua aliquip elit officia incididunt minim.</Typography.Body>
+        </div>
+      </Card.PrimaryAction>
+    </Card>
+  </div>
+</Playground>
+
+### Card with actions
+<Playground>
+  <div style={{ display: 'inline-block' }}>
+    <Card style={{ width: '320px', float: 'left' }}>
+      <Card.PrimaryAction>
+        <Card.Media sixteenByNine style={{ backgroundImage: 'url(https://picsum.photos/320/180?random)' }} />
+        <div style={{padding: '1rem'}}>
+          <Typography.Subtitle>Additional Action Buttons</Typography.Subtitle>
+          <Typography.Body size="2">Voluptate ea do ipsum eiusmod eiusmod tempor officia mollit est laboris non.</Typography.Body>
+        </div>
+      </Card.PrimaryAction>
+      <Card.Actions full>
+        <Card.Button style={{textAlign: 'center'}}>Bookmark</Card.Button>
+      </Card.Actions>
+    </Card>
+    <Card style={{ width: '320px', float: 'left', marginLeft: '1rem' }}>
+      <Card.PrimaryAction>
+        <Card.Media sixteenByNine style={{ backgroundImage: 'url(https://picsum.photos/320/180?random)' }} />
+        <div style={{padding: '1rem'}}>
+          <Typography.Subtitle>Additional Action Icons</Typography.Subtitle>
+          <Typography.Body size="2">Sunt proident consectetur qui sint.</Typography.Body>
+        </div>
+      </Card.PrimaryAction>
+      <Card.Actions>
+        <Card.Buttons>
+          <Card.Button>accept</Card.Button>
+          <Card.Button>cancel</Card.Button>
+        </Card.Buttons>
+        <Card.Icons>
+          <Card.Icon iconName="share" />
+          <Card.Icon iconName="more_vert" />
+        </Card.Icons>
+      </Card.Actions>
+    </Card>
+  </div>
+</Playground>

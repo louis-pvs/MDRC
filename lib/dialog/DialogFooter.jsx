@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import { oneOfType, node, string, arrayOf } from 'prop-types';
 import classnames from 'classnames';
+
 import omit from '../utils/omit';
+import { cssClasses, usedProps } from './constants';
 
 class DialogFooter extends PureComponent {
   static propTypes = {
@@ -16,11 +18,11 @@ class DialogFooter extends PureComponent {
   };
 
   render() {
-    const className = classnames('mdc-dialog__footer', this.props.className);
+    const className = classnames(cssClasses.FOOTER, this.props.className);
     const Tag = this.props.htmlTag;
 
     return (
-      <Tag className={className} {...omit(this.props, Object.keys(DialogFooter.propTypes))}>
+      <Tag className={className} {...omit(this.props, usedProps.FOOTER)}>
         {this.props.children}
       </Tag>
     );

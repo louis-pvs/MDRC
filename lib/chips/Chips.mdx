@@ -1,0 +1,63 @@
+---
+name: Chips
+route: /component/chips
+menu: Components
+---
+
+import { Playground, PropsTable } from 'docz';
+import Chips from './index.js';
+
+## Chips
+
+### Basic usage
+<Playground>
+  <Chips>
+    <Chips.Item>
+      <Chips.Text>Normal chip</Chips.Text>
+    </Chips.Item>
+    <Chips.Item>
+      <Chips.Icon iconName="face" lead />
+      <Chips.Text>With icon</Chips.Text>
+    </Chips.Item>
+    <Chips.Item>
+      <Chips.Text>Closable</Chips.Text>
+      <Chips.Icon iconName="close" trail />
+    </Chips.Item>
+  </Chips>
+</Playground>
+
+### Usage as choice
+<Playground>
+  <Chips choice>
+    <Chips.Item>
+      <Chips.Text>Normal chip</Chips.Text>
+    </Chips.Item>
+    <Chips.Item>
+      <Chips.Icon iconName="face" lead />
+      <Chips.Text>With icon</Chips.Text>
+    </Chips.Item>
+    <Chips.Item>
+      <Chips.Text>Closable</Chips.Text>
+      <Chips.Icon iconName="close" trail />
+    </Chips.Item>
+  </Chips>
+</Playground>
+
+### Usage as filter
+<Playground>
+  <Chips filter>
+    <Chips.Item>
+      <Chips.Text>
+        Normal chip
+      </Chips.Text>
+    </Chips.Item>
+    <Chips.Item>
+      <Chips.Icon iconName="face" checkmark lead />
+      <Chips.Text>Icon with checkmark</Chips.Text>
+    </Chips.Item>
+    <Chips.Item>
+      <Chips.Text>Closable</Chips.Text>
+      <Chips.Icon iconName="close" trail />
+    </Chips.Item>
+  </Chips>
+</Playground>

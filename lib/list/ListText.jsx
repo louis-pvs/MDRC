@@ -3,6 +3,7 @@ import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
+import { cssClasses, usedProps, enums } from './constants';
 
 class ListText extends PureComponent {
   static propTypes = {
@@ -15,21 +16,21 @@ class ListText extends PureComponent {
     children: null,
     className: null,
     secondary: false,
-    htmlTag: 'span',
+    htmlTag: enums.SPAN,
   };
 
   render() {
     const className = classnames(
       {
-        'mdc-list-item__text': !this.props.secondary,
-        'mdc-list-item__secondary-text': this.props.secondary,
+        [cssClasses.TEXT]: !this.props.secondary,
+        [cssClasses.TEXT_SECONDARY]: this.props.secondary,
       },
       this.props.className,
     );
     const Tag = this.props.htmlTag;
 
     return (
-      <Tag className={className} {...omit(this.props, Object.keys(ListText.propTypes))}>
+      <Tag className={className} {...omit(this.props, usedProps.TEXT)}>
         {this.props.children}
       </Tag>
     );

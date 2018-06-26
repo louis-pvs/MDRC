@@ -3,6 +3,7 @@ import { oneOfType, node, string, arrayOf } from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
+import { cssClasses, usedProps, enums } from './constants';
 
 class DrawerHeader extends PureComponent {
   static propTypes = {
@@ -13,16 +14,16 @@ class DrawerHeader extends PureComponent {
   static defaultProps = {
     children: null,
     className: null,
-    htmlTag: 'h5',
+    htmlTag: enums.HEADER,
   };
 
   render() {
-    const className = classnames('mdc-drawer__header-content', this.props.className);
+    const className = classnames(cssClasses.HEADER_CONTENT, this.props.className);
     const Tag = this.props.htmlTag;
 
     return (
-      <header className="mdc-drawer__header">
-        <Tag className={className} {...omit(this.props, Object.keys(DrawerHeader.propTypes))}>
+      <header className={cssClasses.HEADER}>
+        <Tag className={className} {...omit(this.props, usedProps.HEADER)}>
           {this.props.children}
         </Tag>
       </header>
