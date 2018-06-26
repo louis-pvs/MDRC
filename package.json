@@ -99,12 +99,10 @@
     "start": "concurrently \"yarn run dev \" \"yarn run doc\"",
     "build:doc": "docz build",
     "build:style": "node-sass dist/styles/mrcw.scss dist/mrcw.css --include-path=node_modules && postcss dist/mrcw.css -m -r",
-    "build:lib": "node scripts/build.js",
-    "build": "concurrently \"yarn run build:lib \" \"yarn run build:doc\"",
+    "build": "node scripts/build.js",
     "postbuild": "NODE_ENV=production babel lib/index.js -o dist/index.js --copy-files && npm run build:style",
     "test": "node scripts/test.js --env=jsdom",
-    "precommit": "lint-staged",
-    "prepublish": "npm run build"
+    "precommit": "lint-staged"
   },
   "lint-staged": {
     "*.{js,jsx}": [
