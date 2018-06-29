@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf,
+} from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
@@ -11,6 +13,7 @@ class DrawerHeader extends PureComponent {
     className: string,
     htmlTag: string,
   };
+
   static defaultProps = {
     children: null,
     className: null,
@@ -18,13 +21,13 @@ class DrawerHeader extends PureComponent {
   };
 
   render() {
-    const className = classnames(cssClasses.HEADER_CONTENT, this.props.className);
-    const Tag = this.props.htmlTag;
+    const { className, htmlTag: Tag, children } = this.props;
+    const classNames = classnames(cssClasses.HEADER_CONTENT, className);
 
     return (
       <header className={cssClasses.HEADER}>
-        <Tag className={className} {...omit(this.props, usedProps.HEADER)}>
-          {this.props.children}
+        <Tag className={classNames} {...omit(this.props, usedProps.HEADER)}>
+          {children}
         </Tag>
       </header>
     );

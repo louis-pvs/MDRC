@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf, bool,
+} from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
@@ -12,6 +14,7 @@ class ListGraphic extends PureComponent {
     meta: bool,
     htmlTag: string,
   };
+
   static defaultProps = {
     children: null,
     className: null,
@@ -20,18 +23,20 @@ class ListGraphic extends PureComponent {
   };
 
   render() {
-    const className = classnames(
+    const {
+      meta, className, children, htmlTag: Tag,
+    } = this.props;
+    const classNames = classnames(
       {
-        [cssClasses.GRAPHIC]: !this.props.meta,
-        [cssClasses.META]: this.props.meta,
+        [cssClasses.GRAPHIC]: !meta,
+        [cssClasses.META]: meta,
       },
-      this.props.className,
+      className,
     );
-    const Tag = this.props.htmlTag;
 
     return (
-      <Tag className={className} {...omit(this.props, usedProps.GRAPHIC)}>
-        {this.props.children}
+      <Tag className={classNames} {...omit(this.props, usedProps.GRAPHIC)}>
+        {children}
       </Tag>
     );
   }

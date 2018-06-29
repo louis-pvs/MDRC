@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf,
+} from 'prop-types';
 import classnames from 'classnames';
 
 import { cssClasses, usedProps, enums } from './constants';
@@ -11,6 +13,7 @@ class CardButtons extends PureComponent {
     className: string,
     htmlTag: string,
   };
+
   static defaultProps = {
     children: null,
     className: null,
@@ -18,12 +21,12 @@ class CardButtons extends PureComponent {
   };
 
   render() {
-    const className = classnames(cssClasses.BUTTONS, this.props.className);
-    const Tag = this.props.htmlTag;
+    const { className, htmlTag: Tag, children } = this.props;
+    const classNames = classnames(cssClasses.BUTTONS, className);
 
     return (
-      <Tag className={className} {...omit(this.props, usedProps.BUTTONS)}>
-        {this.props.children}
+      <Tag className={classNames} {...omit(this.props, usedProps.BUTTONS)}>
+        {children}
       </Tag>
     );
   }

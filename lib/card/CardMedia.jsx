@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf,
+} from 'prop-types';
 import classnames from 'classnames';
 
 import { cssClasses, usedProps, enums } from './constants';
@@ -11,9 +13,14 @@ class CardMedia extends PureComponent {
     children: oneOfType([node, arrayOf(node)]),
     className: string,
     htmlTag: string,
-    [enums.SIXTEEN_NINE]: (...validates) => notTruthyWith([enums.SQUARE], ...validates),
-    [enums.SQUARE]: (...validates) => notTruthyWith([enums.SIXTEEN_NINE], ...validates),
+    [enums.SIXTEEN_NINE]: function validate(...validates) {
+      return notTruthyWith([enums.SQUARE], ...validates);
+    },
+    [enums.SQUARE]: function validate(...validates) {
+      return notTruthyWith([enums.SIXTEEN_NINE], ...validates);
+    },
   };
+
   static defaultProps = {
     children: null,
     className: null,
@@ -23,17 +30,23 @@ class CardMedia extends PureComponent {
   };
 
   render() {
-    const mediaClasses = classnames(cssClasses.MEDIA, {
-      [cssClasses.MEDIA_16_9]: this.props[enums.SIXTEEN_NINE],
-      [cssClasses.MEDIA_SQUARE]: this.props[enums.SQUARE],
+    const {
+      [enums.SIXTEEN_NINE]: sixteenByNine,
+      [enums.SQUARE]: square,
+      children,
+      className,
+      htmlTag: Tag,
+    } = this.props;
+    const classNames = classnames(cssClasses.MEDIA, {
+      [cssClasses.MEDIA_16_9]: sixteenByNine,
+      [cssClasses.MEDIA_SQUARE]: square,
     });
-    const mediaContent = classnames(cssClasses.ABSOLUTE, this.props.className);
-    const Tag = this.props.htmlTag;
+    const mediaContent = classnames(cssClasses.ABSOLUTE, className);
 
     return (
-      <div className={mediaClasses}>
+      <div className={classNames}>
         <Tag className={mediaContent} {...omit(this.props, usedProps.MEDIA)}>
-          {this.props.children}
+          {children}
         </Tag>
       </div>
     );

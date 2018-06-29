@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { string, oneOfType, node, arrayOf } from 'prop-types';
+import {
+  string, oneOfType, node, arrayOf,
+} from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
@@ -11,6 +13,7 @@ class ChipsText extends PureComponent {
     className: string,
     htmlTag: string,
   };
+
   static defaultProps = {
     children: null,
     className: null,
@@ -18,12 +21,12 @@ class ChipsText extends PureComponent {
   };
 
   render() {
-    const className = classnames(cssClasses.TEXT, this.props.className);
-    const Tag = this.props.htmlTag;
+    const { className, htmlTag: Tag, children } = this.props;
+    const classNames = classnames(cssClasses.TEXT, className);
 
     return (
-      <Tag className={className} {...omit(this.props, usedProps.TEXT)}>
-        {this.props.children}
+      <Tag className={classNames} {...omit(this.props, usedProps.TEXT)}>
+        {children}
       </Tag>
     );
   }

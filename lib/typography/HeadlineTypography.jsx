@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf, oneOf } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf, oneOf,
+} from 'prop-types';
 
 import BaseTypography from './BaseTypography';
 import { cssClasses, usedProps, enums } from './constants';
@@ -11,6 +13,7 @@ class HeadlineTypography extends PureComponent {
     htmlTag: string,
     size: oneOf(enums.HEADLINE_SIZE),
   };
+
   static defaultProps = {
     children: null,
     htmlTag: null,
@@ -18,15 +21,16 @@ class HeadlineTypography extends PureComponent {
   };
 
   render() {
-    const htmlTag = this.props.htmlTag || `${enums.HEADER}${this.props.size}`;
+    const { size } = this.props;
+    const { htmlTag = `${enums.HEADER}${size}`, children } = this.props;
 
     return (
       <BaseTypography
         htmlTag={htmlTag}
-        className={`${cssClasses.HEADLINE}${this.props.size}`}
+        className={`${cssClasses.HEADLINE}${size}`}
         {...omit(this.props, usedProps.HEADLINE)}
       >
-        {this.props.children}
+        {children}
       </BaseTypography>
     );
   }

@@ -9,11 +9,16 @@ import Button from '../button';
 
 class DialogButton extends PureComponent {
   static propTypes = {
-    [enums.ACCEPT]: (...validates) => notTruthyWith([enums.CANCEL], ...validates),
-    [enums.CANCEL]: (...validates) => notTruthyWith([enums.ACCEPT], ...validates),
+    [enums.ACCEPT]: function validate(...validates) {
+      return notTruthyWith([enums.CANCEL], ...validates);
+    },
+    [enums.CANCEL]: function validate(...validates) {
+      return notTruthyWith([enums.ACCEPT], ...validates);
+    },
     action: bool,
     className: string,
   };
+
   static defaultProps = {
     [enums.ACCEPT]: false,
     [enums.CANCEL]: false,
@@ -22,14 +27,17 @@ class DialogButton extends PureComponent {
   };
 
   render() {
+    const {
+      action, className, [enums.ACCEPT]: accept, [enums.CANCEL]: cancel,
+    } = this.props;
     const classNames = classnames(
       cssClasses.BUTTON,
       {
-        [cssClasses.ACCEPT]: this.props[enums.ACCEPT],
-        [cssClasses.ACTION]: this.props.action,
-        [cssClasses.CANCEL]: this.props[enums.CANCEL],
+        [cssClasses.ACCEPT]: accept,
+        [cssClasses.ACTION]: action,
+        [cssClasses.CANCEL]: cancel,
       },
-      this.props.className,
+      className,
     );
     return <Button className={classNames} {...omit(this.props, usedProps.BUTTON)} />;
   }

@@ -9,11 +9,16 @@ import Icon from '../icon';
 
 class ChipsIcon extends PureComponent {
   static propTypes = {
-    [enums.LEAD]: (...validates) => notTruthyWith([enums.TRAIL], ...validates),
-    [enums.TRAIL]: (...validates) => notTruthyWith([enums.LEAD], ...validates),
+    [enums.LEAD]: function validate(...validates) {
+      return notTruthyWith([enums.TRAIL], ...validates);
+    },
+    [enums.TRAIL]: function validate(...validates) {
+      return notTruthyWith([enums.LEAD], ...validates);
+    },
     checkmark: bool,
     className: string,
   };
+
   static defaultProps = {
     [enums.LEAD]: false,
     [enums.TRAIL]: false,
@@ -22,7 +27,8 @@ class ChipsIcon extends PureComponent {
   };
 
   renderChecker = () => {
-    if (!this.props.checkmark || !this.props[enums.LEAD]) return null;
+    const { checkmark, [enums.LEAD]: lead } = this.props;
+    if (!checkmark || !lead) return null;
     return (
       <div className={cssClasses.CHECKMARK}>
         <svg className={cssClasses.SVG} viewBox="-2 -3 30 30">
@@ -38,13 +44,14 @@ class ChipsIcon extends PureComponent {
   };
 
   render() {
+    const { [enums.LEAD]: lead, [enums.TRAIL]: trail, className } = this.props;
     const classNames = classnames(
       cssClasses.ICON,
       {
-        [cssClasses.ICON_LEAD]: this.props[enums.LEAD],
-        [cssClasses.ICON_TRAIL]: this.props[enums.TRAIL],
+        [cssClasses.ICON_LEAD]: lead,
+        [cssClasses.ICON_TRAIL]: trail,
       },
-      this.props.className,
+      className,
     );
     return (
       <Fragment>

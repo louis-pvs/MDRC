@@ -12,6 +12,7 @@ class ListDivider extends PureComponent {
     padded: bool,
     htmlTag: string,
   };
+
   static defaultProps = {
     className: null,
     inset: false,
@@ -20,17 +21,19 @@ class ListDivider extends PureComponent {
   };
 
   render() {
-    const className = classnames(
+    const {
+      padded, inset, className, htmlTag: Tag,
+    } = this.props;
+    const classNames = classnames(
       cssClasses.DIVIDER,
       {
-        [cssClasses.PADDED]: this.props.padded,
-        [cssClasses.INSET]: this.props.inset,
+        [cssClasses.PADDED]: padded,
+        [cssClasses.INSET]: inset,
       },
-      this.props.className,
+      className,
     );
-    const Tag = this.props.htmlTag;
 
-    return <Tag role="separator" className={className} {...omit(this.props, usedProps.DIVIDER)} />;
+    return <Tag role="separator" className={classNames} {...omit(this.props, usedProps.DIVIDER)} />;
   }
 }
 

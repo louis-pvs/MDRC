@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf, oneOf } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf, oneOf,
+} from 'prop-types';
 
 import BaseTypography from './BaseTypography';
 import { cssClasses, usedProps, enums } from './constants';
@@ -11,6 +13,7 @@ class BodyTypography extends PureComponent {
     htmlTag: string,
     size: oneOf(enums.BODY_SIZE),
   };
+
   static defaultProps = {
     children: null,
     htmlTag: enums.PARAGRAPH,
@@ -18,15 +21,14 @@ class BodyTypography extends PureComponent {
   };
 
   render() {
-    const { htmlTag, size } = this.props;
+    const { size, children } = this.props;
 
     return (
       <BaseTypography
-        htmlTag={htmlTag}
         className={`${cssClasses.BODY}${size}`}
         {...omit(this.props, usedProps.BODY)}
       >
-        {this.props.children}
+        {children}
       </BaseTypography>
     );
   }

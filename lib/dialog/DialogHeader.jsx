@@ -1,8 +1,12 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf,
+} from 'prop-types';
 import classnames from 'classnames';
 import omit from '../utils/omit';
-import { usedProps, target, enums, cssClasses } from './constants';
+import {
+  usedProps, target, enums, cssClasses,
+} from './constants';
 
 class DialogHeader extends PureComponent {
   static propTypes = {
@@ -10,6 +14,7 @@ class DialogHeader extends PureComponent {
     className: string,
     htmlTag: string,
   };
+
   static defaultProps = {
     children: null,
     className: null,
@@ -17,13 +22,13 @@ class DialogHeader extends PureComponent {
   };
 
   render() {
-    const className = classnames(cssClasses.TITLE, this.props.className);
-    const Tag = this.props.htmlTag;
+    const { className, htmlTag: Tag, children } = this.props;
+    const classNames = classnames(cssClasses.TITLE, className);
 
     return (
       <header className="mdc-dialog__header">
-        <Tag id={target.LABEL} className={className} {...omit(this.props, usedProps.HEADER)}>
-          {this.props.children}
+        <Tag id={target.LABEL} className={classNames} {...omit(this.props, usedProps.HEADER)}>
+          {children}
         </Tag>
       </header>
     );

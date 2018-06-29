@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf, bool,
+} from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
@@ -12,6 +14,7 @@ class ListSubheader extends PureComponent {
     secondary: bool,
     htmlTag: string,
   };
+
   static defaultProps = {
     children: null,
     className: null,
@@ -20,12 +23,12 @@ class ListSubheader extends PureComponent {
   };
 
   render() {
-    const className = classnames(cssClasses.SUBHEADER, this.props.className);
-    const Tag = this.props.htmlTag;
+    const { className, htmlTag: Tag, children } = this.props;
+    const classNames = classnames(cssClasses.SUBHEADER, className);
 
     return (
-      <Tag className={className} {...omit(this.props, usedProps.SUBHEADER)}>
-        {this.props.children}
+      <Tag className={classNames} {...omit(this.props, usedProps.SUBHEADER)}>
+        {children}
       </Tag>
     );
   }

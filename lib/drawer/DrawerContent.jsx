@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { bool, oneOfType, node, string, arrayOf } from 'prop-types';
+import {
+  bool, oneOfType, node, string, arrayOf,
+} from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
@@ -13,6 +15,7 @@ class DrawerContent extends PureComponent {
     className: string,
     htmlTag: string,
   };
+
   static defaultProps = {
     appendClassToChild: false,
     children: null,
@@ -21,14 +24,17 @@ class DrawerContent extends PureComponent {
   };
 
   render() {
-    const className = classnames(cssClasses.CONTENT, this.props.className);
-    const Tag = this.props.htmlTag;
-    if (this.props.appendClassToChild && this.props.children) {
-      return cloneChildWithClassName(this.props.children, className);
+    const {
+      className, htmlTag: Tag, children, appendClassToChild,
+    } = this.props;
+    const classNames = classnames(cssClasses.CONTENT, className);
+    if (appendClassToChild && children) {
+      return cloneChildWithClassName(children, classNames);
     }
+
     return (
-      <Tag className={className} {...omit(this.props, usedProps.CONTENT)}>
-        {this.props.children}
+      <Tag className={classNames} {...omit(this.props, usedProps.CONTENT)}>
+        {children}
       </Tag>
     );
   }

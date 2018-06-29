@@ -25,6 +25,9 @@ const cssLoader = {
 };
 
 export default {
+  source: paths.appLib,
+  dest: paths.doc,
+  base: 'https://louis-pvs.github.io/mrcw/',
   title: 'mrcw',
   description: 'A layer of React wrapper for official Material Components',
   themeConfig: {
@@ -35,7 +38,10 @@ export default {
   },
   modifyBundlerConfig: function modifier(config) {
     config.resolve.alias.react = path.resolve(paths.appNodeModules, 'react');
-
+    config.module.rules.push({
+      test: /\.css$/,
+      use: [require.resolve('style-loader'), cssLoader, postCssLoader],
+    });
     config.module.rules.push({
       test: /\.(sa|sc|c)ss$/,
       use: [

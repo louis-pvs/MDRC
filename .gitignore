@@ -8,7 +8,6 @@
 
 # production
 /dist
-/src
 
 # misc
 .DS_Store
@@ -18,9 +17,6 @@
 .env.production.local
 .sass-cache
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
 # Docs
 .docz
+doczrc.js

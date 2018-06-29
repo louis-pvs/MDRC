@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf, bool,
+} from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
@@ -12,6 +14,7 @@ class ListText extends PureComponent {
     secondary: bool,
     htmlTag: string,
   };
+
   static defaultProps = {
     children: null,
     className: null,
@@ -20,18 +23,20 @@ class ListText extends PureComponent {
   };
 
   render() {
-    const className = classnames(
+    const {
+      secondary, className, htmlTag: Tag, children,
+    } = this.props;
+    const classNames = classnames(
       {
-        [cssClasses.TEXT]: !this.props.secondary,
-        [cssClasses.TEXT_SECONDARY]: this.props.secondary,
+        [cssClasses.TEXT]: !secondary,
+        [cssClasses.TEXT_SECONDARY]: secondary,
       },
-      this.props.className,
+      className,
     );
-    const Tag = this.props.htmlTag;
 
     return (
-      <Tag className={className} {...omit(this.props, usedProps.TEXT)}>
-        {this.props.children}
+      <Tag className={classNames} {...omit(this.props, usedProps.TEXT)}>
+        {children}
       </Tag>
     );
   }

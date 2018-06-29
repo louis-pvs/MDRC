@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf, bool,
+} from 'prop-types';
 import classnames from 'classnames';
 import { MDCRipple } from '@material/ripple';
 
@@ -7,6 +9,10 @@ import omit from '../utils/omit';
 import { cssClasses, usedProps, enums } from './constants';
 
 class ListItem extends PureComponent {
+  ref = null;
+
+  ripple = null;
+
   static propTypes = {
     activated: bool,
     children: oneOfType([node, arrayOf(node)]),
@@ -15,6 +21,7 @@ class ListItem extends PureComponent {
     ripple: bool,
     selected: bool,
   };
+
   static defaultProps = {
     activated: false,
     children: null,
@@ -24,31 +31,32 @@ class ListItem extends PureComponent {
     selected: false,
   };
 
-  ref = null;
-  ripple = null;
   init = (ref) => {
     if (ref && this.ref !== ref) {
+      const { ripple } = this.props;
       this.ref = ref;
-      if (this.props.ripple) {
+      if (ripple) {
         this.ripple = new MDCRipple(ref);
       }
     }
   };
 
   render() {
-    const className = classnames(
+    const {
+      activated, selected, className, htmlTag: Tag, children,
+    } = this.props;
+    const classNames = classnames(
       cssClasses.ITEM,
       {
-        [cssClasses.ITEM_ACTIVATED]: this.props.activated,
-        [cssClasses.ITEM_SELECTED]: this.props.selected,
+        [cssClasses.ITEM_ACTIVATED]: activated,
+        [cssClasses.ITEM_SELECTED]: selected,
       },
-      this.props.className,
+      className,
     );
-    const Tag = this.props.htmlTag;
 
     return (
-      <Tag ref={this.init} className={className} {...omit(this.props, usedProps.ITEM)}>
-        {this.props.children}
+      <Tag ref={this.init} className={classNames} {...omit(this.props, usedProps.ITEM)}>
+        {children}
       </Tag>
     );
   }

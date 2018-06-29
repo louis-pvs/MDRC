@@ -1,11 +1,19 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, arrayOf, node, bool, string, func } from 'prop-types';
+import {
+  oneOfType, arrayOf, node, bool, string, func,
+} from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
-import { cssClasses, enums, usedProps, event } from './constants';
+import {
+  cssClasses, enums, usedProps, event,
+} from './constants';
 
 class ChipsItem extends PureComponent {
+  ref = null;
+
+  chips = null;
+
   static propTypes = {
     children: oneOfType([node, arrayOf(node)]),
     className: string,
@@ -14,6 +22,7 @@ class ChipsItem extends PureComponent {
     onRemove: func,
     selected: bool,
   };
+
   static defaultProps = {
     children: null,
     className: null,
@@ -31,15 +40,15 @@ class ChipsItem extends PureComponent {
   }
 
   onInteract = () => {
-    this.props.onInteract();
+    const { onInteract } = this.props;
+    onInteract();
   };
 
   onRemove = () => {
-    this.props.onRemove();
+    const { onRemove } = this.props;
+    onRemove();
   };
 
-  ref = null;
-  chips = null;
   init = (ref) => {
     if (ref && this.ref !== ref) {
       this.ref = ref;
@@ -49,10 +58,10 @@ class ChipsItem extends PureComponent {
   };
 
   render() {
+    const { selected, htmlTag: Tag, children } = this.props;
     const className = classnames(cssClasses.CHIP, {
-      [cssClasses.SELECTED]: this.props.selected,
+      [cssClasses.SELECTED]: selected,
     });
-    const Tag = this.props.htmlTag;
 
     return (
       <Tag
@@ -62,7 +71,7 @@ class ChipsItem extends PureComponent {
         tabIndex="0"
         {...omit(this.props, usedProps.ITEM)}
       >
-        {this.props.children}
+        {children}
       </Tag>
     );
   }
