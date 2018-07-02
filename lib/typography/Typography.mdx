@@ -1,0 +1,51 @@
+---
+name: Typography
+route: /component/typography
+order: 1
+menu: Components
+---
+
+import { Playground, PropsTable } from 'docz';
+import Typography from './index.js';
+
+## Typography
+
+### Basic usage
+Setting font family
+<Playground>
+  <Typography>Deserunt qui ad Lorem ea.</Typography>
+</Playground>
+
+### Headline
+<Playground>
+  <Typography.Headline>Headline Size 1</Typography.Headline>
+  <Typography.Headline size={2}>Headline size 2</Typography.Headline>
+  <Typography.Headline size={3}>Headline size 3</Typography.Headline>
+  <Typography.Headline size={4}>Headline size 4</Typography.Headline>
+  <Typography.Headline size={5}>Headline size 5</Typography.Headline>
+  <Typography.Headline size={6}>Headline size 6</Typography.Headline>
+</Playground>
+
+### Subtitle
+<Playground>
+  <Typography.Subtitle>Subtitle size 1</Typography.Subtitle>
+  <Typography.Subtitle size={2}>Subtitle size 2</Typography.Subtitle>
+</Playground>
+
+### Body
+<Playground>
+  <Typography.Body>
+    Id velit et esse adipisicing nisi cillum commodo. Non laborum velit elit exercitation culpa anim dolore commodo elit voluptate. Ipsum eu irure ex aliqua irure culpa aliquip. Ullamco nisi ipsum ut ex veniam adipisicing consectetur eiusmod in enim. Aute duis ad velit consequat. Reprehenderit et ut incididunt ullamco dolor laboris. Labore id voluptate pariatur est.
+  </Typography.Body>
+  <Typography.Body size={2}>
+    Consequat mollit sunt officia id minim ex do. Exercitation commodo amet duis adipisicing elit. Non veniam excepteur excepteur sunt cillum minim ullamco. Cupidatat cupidatat qui et eiusmod Lorem mollit velit magna enim.
+  </Typography.Body>
+</Playground>
+
+### Others
+<Playground>
+  <Typography.Button htmlTag="p">Button like</Typography.Button>
+  <Typography.Overline htmlTag="p">all words capitalize</Typography.Overline>
+  <Typography.Caption htmlTag="p">Small caption</Typography.Caption>
+</Playground>
+

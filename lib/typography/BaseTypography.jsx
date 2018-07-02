@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf,
+} from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
+import { cssClasses, usedProps, enums } from './constants';
 
 class BaseTypography extends PureComponent {
   static propTypes = {
@@ -10,18 +13,19 @@ class BaseTypography extends PureComponent {
     className: string,
     htmlTag: string,
   };
+
   static defaultProps = {
     children: null,
     className: null,
-    htmlTag: 'p',
+    htmlTag: enums.PARAGRAPH,
   };
-  render() {
-    const className = classnames('mdc-typography', this.props.className);
-    const Tag = this.props.htmlTag;
 
+  render() {
+    const { className, htmlTag: Tag, children } = this.props;
+    const classNames = classnames(cssClasses.ROOT, className);
     return (
-      <Tag className={className} {...omit(this.props, Object.keys(BaseTypography.propTypes))}>
-        {this.props.children}
+      <Tag className={classNames} {...omit(this.props, usedProps.BASE)}>
+        {children}
       </Tag>
     );
   }

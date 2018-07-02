@@ -11,7 +11,7 @@ function ensureSlash(pathStr, needsSlash) {
   const hasSlash = pathStr.endsWith('/');
   if (hasSlash && !needsSlash) {
     return pathStr.substr(pathStr, pathStr.length - 1);
-  } else if (!hasSlash && needsSlash) {
+  } if (!hasSlash && needsSlash) {
     return `${pathStr}/`;
   }
   return pathStr;
@@ -26,7 +26,7 @@ function getServedPath(appPackageJson) {
 }
 
 module.exports = {
-  doc: resolveApp('docs'),
+  appDoc: resolveApp('docs'),
   appBuild: resolveApp('dist'),
   appBuildIndexJs: resolveApp('lib/index.js'),
   appHtml: resolveApp('public/index.html'),

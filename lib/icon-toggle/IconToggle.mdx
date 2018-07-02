@@ -1,0 +1,21 @@
+---
+name: Icon Toggle
+route: /component/icon-toggle
+menu: Components
+---
+
+import { Playground, PropsTable } from 'docz';
+import IconToggle from './index.js';
+
+## Icon Toggle
+
+### Basic usage
+<Playground>
+  <IconToggle
+    dataToggleOff={{label: 'Favorite', content: 'favorite' }}
+    dataToggleOn={{label: 'Unfavorite', content: 'favorite_border' }}
+  />
+</Playground>
+
+### Props
+<PropsTable of={IconToggle} />

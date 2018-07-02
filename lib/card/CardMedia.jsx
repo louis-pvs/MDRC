@@ -1,48 +1,54 @@
 import React, { PureComponent } from 'react';
-import { bool, oneOfType, node, string, arrayOf } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf,
+} from 'prop-types';
 import classnames from 'classnames';
 
-import './card.scss';
+import { cssClasses, usedProps, enums } from './constants';
 import omit from '../utils/omit';
+import notTruthyWith from '../utils/notTruthyWith';
 
 class CardMedia extends PureComponent {
   static propTypes = {
-    absoluteContent: bool,
     children: oneOfType([node, arrayOf(node)]),
     className: string,
     htmlTag: string,
-    sixteenByNine: bool,
-    square: bool,
+    [enums.SIXTEEN_NINE]: function validate(...validates) {
+      return notTruthyWith([enums.SQUARE], ...validates);
+    },
+    [enums.SQUARE]: function validate(...validates) {
+      return notTruthyWith([enums.SIXTEEN_NINE], ...validates);
+    },
   };
+
   static defaultProps = {
-    absoluteContent: true,
     children: null,
     className: null,
-    htmlTag: 'div',
-    sixteenByNine: false,
-    square: false,
+    htmlTag: enums.DIV,
+    [enums.SIXTEEN_NINE]: false,
+    [enums.SQUARE]: false,
   };
 
-  renderContent() {
-    if (!this.props.absoluteContent) return this.props.children;
-    return <div className="mdc-card__media-content">{this.props.children}</div>;
-  }
-
   render() {
-    const className = classnames(
-      'mdc-card__media',
-      {
-        'mdc-card__media--16-9': this.props.sixteenByNine,
-        'mdc-card__media--square': this.props.square,
-      },
-      this.props.className,
-    );
-    const Tag = this.props.htmlTag;
+    const {
+      [enums.SIXTEEN_NINE]: sixteenByNine,
+      [enums.SQUARE]: square,
+      children,
+      className,
+      htmlTag: Tag,
+    } = this.props;
+    const classNames = classnames(cssClasses.MEDIA, {
+      [cssClasses.MEDIA_16_9]: sixteenByNine,
+      [cssClasses.MEDIA_SQUARE]: square,
+    });
+    const mediaContent = classnames(cssClasses.ABSOLUTE, className);
 
     return (
-      <Tag className={className} {...omit(this.props, Object.keys(CardMedia.propTypes))}>
-        {this.renderContent()}
-      </Tag>
+      <div className={classNames}>
+        <Tag className={mediaContent} {...omit(this.props, usedProps.MEDIA)}>
+          {children}
+        </Tag>
+      </div>
     );
   }
 }

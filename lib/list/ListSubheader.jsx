@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf, bool,
+} from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
+import { cssClasses, usedProps, enums } from './constants';
 
 class ListSubheader extends PureComponent {
   static propTypes = {
@@ -11,20 +14,21 @@ class ListSubheader extends PureComponent {
     secondary: bool,
     htmlTag: string,
   };
+
   static defaultProps = {
     children: null,
     className: null,
     secondary: false,
-    htmlTag: 'h5',
+    htmlTag: enums.HEADER,
   };
 
   render() {
-    const className = classnames('mdc-list-group__subheader', this.props.className);
-    const Tag = this.props.htmlTag;
+    const { className, htmlTag: Tag, children } = this.props;
+    const classNames = classnames(cssClasses.SUBHEADER, className);
 
     return (
-      <Tag className={className} {...omit(this.props, Object.keys(ListSubheader.propTypes))}>
-        {this.props.children}
+      <Tag className={classNames} {...omit(this.props, usedProps.SUBHEADER)}>
+        {children}
       </Tag>
     );
   }

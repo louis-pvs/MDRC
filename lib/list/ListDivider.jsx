@@ -3,6 +3,7 @@ import { bool, string } from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
+import { cssClasses, usedProps } from './constants';
 
 class ListDivider extends PureComponent {
   static propTypes = {
@@ -11,6 +12,7 @@ class ListDivider extends PureComponent {
     padded: bool,
     htmlTag: string,
   };
+
   static defaultProps = {
     className: null,
     inset: false,
@@ -19,23 +21,19 @@ class ListDivider extends PureComponent {
   };
 
   render() {
-    const className = classnames(
-      'mdc-list-divider',
+    const {
+      padded, inset, className, htmlTag: Tag,
+    } = this.props;
+    const classNames = classnames(
+      cssClasses.DIVIDER,
       {
-        'mdc-list-divider--padded': this.props.padded,
-        'mdc-list-divider--inset': this.props.inset,
+        [cssClasses.PADDED]: padded,
+        [cssClasses.INSET]: inset,
       },
-      this.props.className,
+      className,
     );
-    const Tag = this.props.htmlTag;
 
-    return (
-      <Tag
-        role="separator"
-        className={className}
-        {...omit(this.props, Object.keys(ListDivider.propTypes))}
-      />
-    );
+    return <Tag role="separator" className={classNames} {...omit(this.props, usedProps.DIVIDER)} />;
   }
 }
 

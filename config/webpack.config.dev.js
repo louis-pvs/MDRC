@@ -48,15 +48,15 @@ module.exports = {
     filename: 'static/js/bundle.js',
     chunkFilename: 'static/js/[name].chunk.js',
     publicPath,
-    devtoolModuleFilenameTemplate: info =>
-      path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
+    devtoolModuleFilenameTemplate: info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
   },
   resolve: {
-    modules: ['node_modules', paths.appNodeModules].concat(process.env.NODE_PATH.split(path.delimiter).filter(Boolean)),
+    modules: ['node_modules', paths.appNodeModules].concat(
+      process.env.NODE_PATH.split(path.delimiter).filter(Boolean),
+    ),
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx', '.scss', '.sass'],
     alias: {
       'react-native': 'react-native-web',
-      lib: paths.appLib,
     },
     plugins: [new ModuleScopePlugin(paths.servedPath)],
   },

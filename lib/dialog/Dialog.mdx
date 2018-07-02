@@ -1,0 +1,59 @@
+---
+name: Dialog
+route: /component/dialog
+menu: Components
+---
+
+import { Playground, PropsTable } from 'docz';
+import Button from '../button';
+import Typography from '../typography';
+import Dialog from './index.js';
+
+## Dialog
+
+### Basic usage
+<Playground>
+  <Dialog
+    activateBy={<Button>Open Dialog</Button>}
+  >
+    <Dialog.Header>Hello World</Dialog.Header>
+    <Dialog.Body style={{padding: '1rem' }}>
+      <Typography.Body size={2}>
+        Non dolore veniam Lorem ipsum Lorem. Reprehenderit eiusmod reprehenderit mollit excepteur occaecat est ut nostrud nulla officia laborum aliqua tempor id. Enim esse consectetur et cupidatat laboris mollit consequat consequat occaecat consequat. Sint consectetur excepteur minim ex minim minim eu. Sunt irure ipsum ad amet consectetur aute sint adipisicing qui commodo. Voluptate mollit Lorem ut ad aliqua cillum officia voluptate dolor anim incididunt laboris velit.
+      </Typography.Body>
+    </Dialog.Body>
+    <Dialog.Footer>
+      <Dialog.Button accept>
+        Bye
+      </Dialog.Button>
+      <Dialog.Button cancel>
+        Hello
+      </Dialog.Button>
+    </Dialog.Footer>
+  </Dialog>
+</Playground>
+
+### Custom content
+<Playground>
+  <Dialog
+    activateBy={<Button>Open Dialog</Button>}
+  >
+    
+    <img width="100%" src="https://picsum.photos/900/300?random" alt="demo" />
+    <div style={{padding: '1rem' }}>
+      <Typography.Headline size="2" style={{ margin: '0.5em 0', }}>Hello World</Typography.Headline>
+      <Typography.Headline size="6" style={{ margin: '1em 0' }}>Qui culpa eu incididunt ad consequat voluptate excepteur enim.</Typography.Headline>
+      <Typography.Body size={2}>
+        Non dolore veniam Lorem ipsum Lorem. Reprehenderit eiusmod reprehenderit mollit excepteur occaecat est ut nostrud nulla officia laborum aliqua tempor id. Enim esse consectetur et cupidatat laboris mollit consequat consequat occaecat consequat. Sint consectetur excepteur minim ex minim minim eu. Sunt irure ipsum ad amet consectetur aute sint adipisicing qui commodo. Voluptate mollit Lorem ut ad aliqua cillum officia voluptate dolor anim incididunt laboris velit.
+      </Typography.Body>
+    </div>
+    <Dialog.Footer>
+      <Dialog.Button accept>
+        Bye
+      </Dialog.Button>
+      <Dialog.Button cancel>
+        Hello
+      </Dialog.Button>
+    </Dialog.Footer>
+  </Dialog>
+</Playground>

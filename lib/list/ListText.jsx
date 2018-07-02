@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf, bool,
+} from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
+import { cssClasses, usedProps, enums } from './constants';
 
 class ListText extends PureComponent {
   static propTypes = {
@@ -11,26 +14,29 @@ class ListText extends PureComponent {
     secondary: bool,
     htmlTag: string,
   };
+
   static defaultProps = {
     children: null,
     className: null,
     secondary: false,
-    htmlTag: 'span',
+    htmlTag: enums.SPAN,
   };
 
   render() {
-    const className = classnames(
+    const {
+      secondary, className, htmlTag: Tag, children,
+    } = this.props;
+    const classNames = classnames(
       {
-        'mdc-list-item__text': !this.props.secondary,
-        'mdc-list-item__secondary-text': this.props.secondary,
+        [cssClasses.TEXT]: !secondary,
+        [cssClasses.TEXT_SECONDARY]: secondary,
       },
-      this.props.className,
+      className,
     );
-    const Tag = this.props.htmlTag;
 
     return (
-      <Tag className={className} {...omit(this.props, Object.keys(ListText.propTypes))}>
-        {this.props.children}
+      <Tag className={classNames} {...omit(this.props, usedProps.TEXT)}>
+        {children}
       </Tag>
     );
   }

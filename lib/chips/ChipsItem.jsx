@@ -1,100 +1,67 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, arrayOf, node, bool, string, func } from 'prop-types';
+import {
+  oneOfType, arrayOf, node, bool, string, func,
+} from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
-import cloneChildWithClassName from '../utils/cloneChildWithClassName';
+import {
+  cssClasses, enums, usedProps, event,
+} from './constants';
 
 class ChipsItem extends PureComponent {
+  ref = null;
+
+  chips = null;
+
   static propTypes = {
-    checkable: bool,
     children: oneOfType([node, arrayOf(node)]),
+    className: string,
     htmlTag: string,
-    leadingIcon: node,
     onInteract: func,
     onRemove: func,
     selected: bool,
-    trailingIcon: node,
   };
+
   static defaultProps = {
-    checkable: false,
     children: null,
-    htmlTag: 'div',
-    leadingIcon: null,
+    className: null,
+    htmlTag: enums.DIV,
     onInteract: () => {},
     onRemove: () => {},
     selected: false,
-    trailingIcon: null,
   };
 
   componentWillUnmount() {
     if (this.ref) {
-      this.ref.removeEventListener('MDCChip:interaction', this.onInteract);
-      this.ref.removeEventListener('MDCChip:removal', this.onRemove);
+      this.ref.removeEventListener(event.INTERACT, this.onInteract);
+      this.ref.removeEventListener(event.REMOVE, this.onRemove);
     }
   }
 
   onInteract = () => {
-    this.props.onInteract();
+    const { onInteract } = this.props;
+    onInteract();
   };
 
   onRemove = () => {
-    this.props.onRemove();
+    const { onRemove } = this.props;
+    onRemove();
   };
 
-  ref = null;
-  chips = null;
   init = (ref) => {
     if (ref && this.ref !== ref) {
       this.ref = ref;
-      this.ref.addEventListener('MDCChip:interaction', this.onInteract);
-      this.ref.addEventListener('MDCChip:removal', this.onRemove);
+      this.ref.addEventListener(event.INTERACT, this.onInteract);
+      this.ref.addEventListener(event.REMOVE, this.onRemove);
     }
   };
-
-  renderChecker = () => {
-    if (!this.props.checkable) return null;
-    return (
-      <div className="mdc-chip__checkmark">
-        <svg className="mdc-chip__checkmark-svg" viewBox="-2 -3 30 30">
-          <path
-            className="mdc-chip__checkmark-path"
-            fill="none"
-            stroke="black"
-            d="M1.73,12.91 8.1,19.28 22.79,4.59"
-          />
-        </svg>
-      </div>
-    );
-  };
-
-  renderLeadingIcon() {
-    const { leadingIcon } = this.props;
-    if (leadingIcon) {
-      return cloneChildWithClassName(
-        leadingIcon,
-        classnames('mdc-chip__icon', 'mdc-chip__icon--leading'),
-      );
-    }
-    return null;
-  }
-
-  renderTrailingIcon() {
-    const { trailingIcon } = this.props;
-    if (trailingIcon) {
-      return cloneChildWithClassName(
-        trailingIcon,
-        classnames('mdc-chip__icon', 'mdc-chip__icon--trailing'),
-      );
-    }
-    return null;
-  }
 
   render() {
-    const className = classnames('mdc-chip', {
-      'mdc-chip--selected': this.props.selected,
+    const { selected, htmlTag: Tag, children } = this.props;
+    const className = classnames(cssClasses.CHIP, {
+      [cssClasses.SELECTED]: selected,
     });
-    const Tag = this.props.htmlTag;
 
     return (
       <Tag
@@ -102,12 +69,9 @@ class ChipsItem extends PureComponent {
         className={className}
         role="button"
         tabIndex="0"
-        {...omit(this.props, Object.keys(ChipsItem.propTypes))}
+        {...omit(this.props, usedProps.ITEM)}
       >
-        {this.renderLeadingIcon()}
-        {this.renderChecker()}
-        <div className="mdc-chip__text">{this.props.children}</div>
-        {this.renderTrailingIcon()}
+        {children}
       </Tag>
     );
   }

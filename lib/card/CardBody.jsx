@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf, bool } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf, bool,
+} from 'prop-types';
 import classnames from 'classnames';
 
-import './card.scss';
+import { cssClasses, usedProps, enums } from './constants';
 import omit from '../utils/omit';
 
 class CardBody extends PureComponent {
@@ -12,26 +14,29 @@ class CardBody extends PureComponent {
     htmlTag: string,
     outlined: bool,
   };
+
   static defaultProps = {
     children: null,
     className: null,
-    htmlTag: 'div',
+    htmlTag: enums.DIV,
     outlined: false,
   };
 
   render() {
-    const className = classnames(
-      'mdc-card',
+    const {
+      outlined, className, htmlTag: Tag, children,
+    } = this.props;
+    const classNames = classnames(
+      cssClasses.ROOT,
       {
-        'mdc-card--outlined': this.props.outlined,
+        [cssClasses.OUTLINED]: outlined,
       },
-      this.props.className,
+      className,
     );
-    const Tag = this.props.htmlTag;
 
     return (
-      <Tag className={className} {...omit(this.props, Object.keys(CardBody.propTypes))}>
-        {this.props.children}
+      <Tag className={classNames} {...omit(this.props, usedProps.BODY)}>
+        {children}
       </Tag>
     );
   }

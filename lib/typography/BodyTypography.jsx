@@ -1,31 +1,34 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf, oneOf } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf, oneOf,
+} from 'prop-types';
 
 import BaseTypography from './BaseTypography';
+import { cssClasses, usedProps, enums } from './constants';
 import omit from '../utils/omit';
 
 class BodyTypography extends PureComponent {
   static propTypes = {
     children: oneOfType([node, arrayOf(node)]),
     htmlTag: string,
-    size: oneOf([1, 2, '1', '2']),
+    size: oneOf(enums.BODY_SIZE),
   };
+
   static defaultProps = {
     children: null,
-    htmlTag: 'p',
-    size: 1,
+    htmlTag: enums.PARAGRAPH,
+    size: enums.BODY_SIZE[0],
   };
 
   render() {
-    const { htmlTag, size } = this.props;
+    const { size, children } = this.props;
 
     return (
       <BaseTypography
-        htmlTag={htmlTag}
-        className={`mdc-typography--body${size}`}
-        {...omit(this.props, Object.keys(BodyTypography.propTypes))}
+        className={`${cssClasses.BODY}${size}`}
+        {...omit(this.props, usedProps.BODY)}
       >
-        {this.props.children}
+        {children}
       </BaseTypography>
     );
   }

@@ -1,31 +1,36 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf, oneOf } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf, oneOf,
+} from 'prop-types';
 
 import BaseTypography from './BaseTypography';
+import { cssClasses, usedProps, enums } from './constants';
 import omit from '../utils/omit';
 
 class HeadlineTypography extends PureComponent {
   static propTypes = {
     children: oneOfType([node, arrayOf(node)]),
     htmlTag: string,
-    size: oneOf([1, 2, 3, 4, 5, 6, '1', '2', '3', '4', '5', '6']),
+    size: oneOf(enums.HEADLINE_SIZE),
   };
+
   static defaultProps = {
     children: null,
-    htmlTag: null,
-    size: 1,
+    htmlTag: `${enums.HEADER}${enums.HEADLINE_SIZE[0]}`,
+    size: enums.HEADLINE_SIZE[0],
   };
 
   render() {
-    const htmlTag = this.props.htmlTag || `h${this.props.size}`;
+    const { size } = this.props;
+    const { htmlTag, children } = this.props;
 
     return (
       <BaseTypography
         htmlTag={htmlTag}
-        className={`mdc-typography--headline${this.props.size}`}
-        {...omit(this.props, Object.keys(HeadlineTypography.propTypes))}
+        className={`${cssClasses.HEADLINE}${size}`}
+        {...omit(this.props, usedProps.HEADLINE)}
       >
-        {this.props.children}
+        {children}
       </BaseTypography>
     );
   }

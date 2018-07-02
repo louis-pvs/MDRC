@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react';
-import { oneOfType, node, string, arrayOf } from 'prop-types';
+import {
+  oneOfType, node, string, arrayOf,
+} from 'prop-types';
 import classnames from 'classnames';
 
 import omit from '../utils/omit';
+import { cssClasses, usedProps, enums } from './constants';
 
 class ListGroup extends PureComponent {
   static propTypes = {
@@ -10,19 +13,20 @@ class ListGroup extends PureComponent {
     className: string,
     htmlTag: string,
   };
+
   static defaultProps = {
     children: null,
     className: null,
-    htmlTag: 'div',
+    htmlTag: enums.DIV,
   };
 
   render() {
-    const className = classnames('mdc-list-group', this.props.className);
-    const Tag = this.props.htmlTag;
+    const { className, htmlTag: Tag, children } = this.props;
+    const classNames = classnames(cssClasses.GROUP, className);
 
     return (
-      <Tag className={className} {...omit(this.props, Object.keys(ListGroup.propTypes))}>
-        {this.props.children}
+      <Tag className={classNames} {...omit(this.props, usedProps.GROUP)}>
+        {children}
       </Tag>
     );
   }
