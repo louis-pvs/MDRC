@@ -1,6 +1,8 @@
 const autoprefixer = require('autoprefixer');
 const eslintFormatter = require('eslint-friendly-formatter');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const path = require('path');
@@ -178,7 +180,9 @@ module.exports = {
     alias: {
       'react-native': 'react-native-web',
     },
-    plugins: [new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson])],
+    plugins: [
+      new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson, `${paths.appLib}/typography`]),
+    ],
   },
   module: {
     strictExportPresence: true,
@@ -196,7 +200,7 @@ module.exports = {
             },
           },
         ],
-        include: paths.appSrc,
+        include: [paths.appSrc, paths.appLib],
       },
       {
         oneOf: [
@@ -210,7 +214,7 @@ module.exports = {
           },
           {
             test: /\.(js|jsx|mjs)$/,
-            include: paths.appSrc,
+            include: [paths.appSrc, paths.appLib],
             loader: require.resolve('babel-loader'),
             options: {
               compact: true,
@@ -265,6 +269,23 @@ module.exports = {
     ],
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: paths.appHtml,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
+      },
+    }),
+    new InterpolateHtmlPlugin(env.raw),
     new webpack.DefinePlugin(env.stringified),
     ExtractCSS,
     ExtractSASS,
