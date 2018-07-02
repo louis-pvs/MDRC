@@ -1,7 +1,8 @@
 {
-  "index.js": "./static/js/index.b348f59c.js",
+  "index.js": "./static/js/index.efba57fc.js",
   "index.css": "./index.css",
-  "index.js.map": "./static/js/index.b348f59c.js.map",
+  "index.js.map": "./static/js/index.efba57fc.js.map",
   "index.css.map": "./index.css.map",
-  "logo.svg": "./logo.svg"
+  "logo.svg": "./logo.svg",
+  "index.html": "./index.html"
 }
