@@ -86,18 +86,20 @@
     "stylelint": "^9.3.0",
     "stylelint-formatter-pretty": "^1.0.3",
     "stylelint-order": "^0.8.1",
+    "sw-precache-webpack-plugin": "^0.11.5",
+    "uglifyjs-webpack-plugin": "^1.2.7",
     "url-loader": "1.0.1",
     "webpack": "^4.12.2",
     "webpack-dev-server": "3.1.4",
+    "webpack-manifest-plugin": "^2.0.3",
     "whatwg-fetch": "2.0.4"
   },
   "scripts": {
-    "start": "npm run start --prefix website",
     "sass": "node-sass dist/styles/mrcw.scss dist/mrcw.css --include-path=node_modules && postcss dist/mrcw.css -m -r",
+    "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "postbuild": "NODE_ENV=production babel lib/index.js -o dist/index.js --copy-files && npm run sass",
-    "test": "node scripts/test.js --env=jsdom",
-    "precommit": "lint-staged"
+    "test": "node scripts/test.js",
+    "precommit": "lint-staged && yarn test"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -121,7 +123,7 @@
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
       "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
     ],
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
     "testURL": "http://localhost",
     "transform": {
       "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest",
@@ -166,7 +168,8 @@
     },
     "env": {
       "browser": true,
-      "node": true
+      "node": true,
+      "jest": true
     },
     "settings": {
       "import/resolver": {

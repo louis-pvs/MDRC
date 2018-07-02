@@ -16,13 +16,13 @@ class HeadlineTypography extends PureComponent {
 
   static defaultProps = {
     children: null,
-    htmlTag: null,
+    htmlTag: `${enums.HEADER}${enums.HEADLINE_SIZE[0]}`,
     size: enums.HEADLINE_SIZE[0],
   };
 
   render() {
     const { size } = this.props;
-    const { htmlTag = `${enums.HEADER}${size}`, children } = this.props;
+    const { htmlTag, children } = this.props;
 
     return (
       <BaseTypography

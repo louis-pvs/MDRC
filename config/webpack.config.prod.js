@@ -1,17 +1,19 @@
 const autoprefixer = require('autoprefixer');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const eslintFormatter = require('eslint-friendly-formatter');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const path = require('path');
 const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 
-const paths = require('./paths');
 const getClientEnvironment = require('./env');
+const paths = require('./paths');
 
 // static files related
-const publicPath = '../';
+const publicPath = './';
 const outputPath = 'static/';
 const publicUrl = publicPath.slice(0, -1);
 const useRelativePath = publicPath === './' || publicPath === '../';
@@ -52,183 +54,184 @@ const styleLoader = {
   },
 };
 
-module.exports = (component) => {
-  const cssFilename = `${component}.css`;
-  const sassFileName = `${component}.css`;
-  const extractTextPluginOptions = useRelativePath
-    ? { publicPath: Array(cssFilename.split('/').length).join('../') }
-    : {};
-  const ExtractCSS = new ExtractTextPlugin({ filename: cssFilename });
-  const ExtractSASS = new ExtractTextPlugin({ filename: sassFileName });
-  return {
-    mode: 'production',
-    bail: true,
-    devtool: shouldUseSourceMap ? 'source-map' : false,
-    entry: {
-      index: path.resolve(paths.appLib, component, 'index.js'),
-    },
-    output: {
-      path: path.resolve(paths.appBuild, component),
-      filename: '[name].js',
-      publicPath,
-      library: 'mrcw',
-      libraryTarget: 'commonjs2',
-      devtoolModuleFilenameTemplate: info =>
-        path.relative(paths.appLib, info.absoluteResourcePath).replace(/\\/g, '/'),
-    },
-    externals: [
-      {
-        'material-components-web': {
-          root: 'material-components-web',
-          commonjs2: 'material-components-web',
-          commonjs: 'material-components-web',
-          amd: 'material-components-web',
-          umd: 'material-components-web',
-        },
+const cssFilename = '[name].css';
+const sassFileName = '[name].css';
+const extractTextPluginOptions = useRelativePath
+  ? { publicPath: Array(cssFilename.split('/').length).join('../') }
+  : {};
+const ExtractCSS = new ExtractTextPlugin({ filename: cssFilename });
+const ExtractSASS = new ExtractTextPlugin({ filename: sassFileName });
+module.exports = {
+  mode: 'production',
+  bail: true,
+  devtool: shouldUseSourceMap ? 'source-map' : false,
+  entry: {
+    index: path.resolve(paths.appSrc, 'index.js'),
+  },
+  output: {
+    path: path.resolve(paths.appDoc),
+    filename: 'static/js/[name].[chunkhash:8].js',
+    chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+    publicPath,
+    devtoolModuleFilenameTemplate: info => path.relative(paths.appSrc, info.absoluteResourcePath).replace(/\\/g, '/'),
+  },
+  externals: [
+    {
+      'material-components-web': {
+        root: 'material-components-web',
+        commonjs2: 'material-components-web',
+        commonjs: 'material-components-web',
+        amd: 'material-components-web',
+        umd: 'material-components-web',
       },
-      ...[
-        'animation',
-        'auto-init',
-        'base',
-        'button',
-        'card',
-        'checkbox',
-        'dialog',
-        'drawer',
-        'elevation',
-        'fab',
-        'form-field',
-        'grid-list',
-        'icon-toggle',
-        'layout-grid',
-        'linear-progress',
-        'list',
-        'menu',
-        'radio',
-        'ripple',
-        'rtl',
-        'select',
-        'selection-control',
-        'slider',
-        'snackbar',
-        'switch',
-        'tabs',
-        'textfield',
-        'theme',
-        'toolbar',
-        'typography',
-      ].map((name) => {
-        const parts = name.split('-');
-        const upperName =
-          parts.length > 1
-            ? `${parts[0]}${parts[1].charAt(0).toUpperCase()}${parts[1].slice(1)}`
-            : name;
-        const moduleName = `@material/${name}/dist/mdc.${upperName}`;
+    },
+    ...[
+      'animation',
+      'auto-init',
+      'base',
+      'button',
+      'card',
+      'checkbox',
+      'dialog',
+      'drawer',
+      'elevation',
+      'fab',
+      'form-field',
+      'grid-list',
+      'icon-toggle',
+      'layout-grid',
+      'linear-progress',
+      'list',
+      'menu',
+      'radio',
+      'ripple',
+      'rtl',
+      'select',
+      'selection-control',
+      'slider',
+      'snackbar',
+      'switch',
+      'tabs',
+      'textfield',
+      'theme',
+      'toolbar',
+      'typography',
+    ].map((name) => {
+      const parts = name.split('-');
+      const upperName = parts.length > 1
+        ? `${parts[0]}${parts[1].charAt(0).toUpperCase()}${parts[1].slice(1)}`
+        : name;
+      const moduleName = `@material/${name}/dist/mdc.${upperName}`;
 
-        return {
-          [moduleName]: {
-            root: moduleName,
-            commonjs2: moduleName,
-            commonjs: moduleName,
-            amd: moduleName,
-            umd: moduleName,
-          },
-        };
-      }),
-      {
-        react: {
-          root: 'React',
-          commonjs2: 'react',
-          commonjs: 'react',
-          amd: 'react',
-          umd: 'react',
+      return {
+        [moduleName]: {
+          root: moduleName,
+          commonjs2: moduleName,
+          commonjs: moduleName,
+          amd: moduleName,
+          umd: moduleName,
         },
+      };
+    }),
+    {
+      react: {
+        root: 'React',
+        commonjs2: 'react',
+        commonjs: 'react',
+        amd: 'react',
+        umd: 'react',
       },
-      {
-        'react-dom': {
-          root: 'ReactDOM',
-          commonjs2: 'react-dom',
-          commonjs: 'react-dom',
-          amd: 'react-dom',
-          umd: 'react-dom',
-        },
-      },
-      {
-        classnames: {
-          root: 'classNames',
-          commonjs2: 'classnames',
-          commonjs: 'classnames',
-          amd: 'classnames',
-          umd: 'classnames',
-        },
-      },
-      {
-        'prop-types': {
-          root: 'PropTypes',
-          commonjs2: 'prop-types',
-          commonjs: 'prop-types',
-          amd: 'prop-types',
-          umd: 'prop-types',
-        },
-      },
-    ],
-    resolve: {
-      modules: ['node_modules', paths.appNodeModules].concat(process.env.NODE_PATH.split(path.delimiter).filter(Boolean)),
-      extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx', '.sass', '.scss'],
-      alias: {
-        'react-native': 'react-native-web',
-      },
-      plugins: [new ModuleScopePlugin(paths.appLib, [paths.appPackageJson])],
     },
-    module: {
-      strictExportPresence: true,
-      rules: [
-        {
-          test: /\.(js|jsx|mjs)$/,
-          enforce: 'pre',
-          use: [
-            {
-              loader: require.resolve('eslint-loader'),
-              options: {
-                eslintPath: require.resolve('eslint'),
-                formatter: eslintFormatter,
-                quiet: true,
-              },
+    {
+      'react-dom': {
+        root: 'ReactDOM',
+        commonjs2: 'react-dom',
+        commonjs: 'react-dom',
+        amd: 'react-dom',
+        umd: 'react-dom',
+      },
+    },
+    {
+      classnames: {
+        root: 'classNames',
+        commonjs2: 'classnames',
+        commonjs: 'classnames',
+        amd: 'classnames',
+        umd: 'classnames',
+      },
+    },
+    {
+      'prop-types': {
+        root: 'PropTypes',
+        commonjs2: 'prop-types',
+        commonjs: 'prop-types',
+        amd: 'prop-types',
+        umd: 'prop-types',
+      },
+    },
+  ],
+  resolve: {
+    modules: ['node_modules', paths.appNodeModules].concat(
+      process.env.NODE_PATH.split(path.delimiter).filter(Boolean),
+    ),
+    extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx', '.sass', '.scss'],
+    alias: {
+      'react-native': 'react-native-web',
+    },
+    plugins: [new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson])],
+  },
+  module: {
+    strictExportPresence: true,
+    rules: [
+      {
+        test: /\.(js|jsx|mjs)$/,
+        enforce: 'pre',
+        use: [
+          {
+            loader: require.resolve('eslint-loader'),
+            options: {
+              eslintPath: require.resolve('eslint'),
+              formatter: eslintFormatter,
+              quiet: true,
             },
-          ],
-          include: paths.appLib,
-        },
-        {
-          oneOf: [
-            {
-              test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.eot$/, /\.ttf$/, /\.woff2?$/],
-              loader: require.resolve('url-loader'),
-              options: {
-                limit: 10000,
-                name: `${publicPath}${outputPath}[name].[ext]`,
-              },
+          },
+        ],
+        include: paths.appSrc,
+      },
+      {
+        oneOf: [
+          {
+            test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.eot$/, /\.ttf$/, /\.woff2?$/],
+            loader: require.resolve('url-loader'),
+            options: {
+              limit: 10000,
+              name: `${publicPath}${outputPath}[name].[ext]`,
             },
-            {
-              test: /\.(js|jsx|mjs)$/,
-              include: paths.appLib,
-              loader: require.resolve('babel-loader'),
-              options: {
-                compact: true,
-              },
+          },
+          {
+            test: /\.(js|jsx|mjs)$/,
+            include: paths.appSrc,
+            loader: require.resolve('babel-loader'),
+            options: {
+              compact: true,
             },
-            {
-              test: /\.css$/,
-              loader: ExtractCSS.extract(Object.assign(
+          },
+          {
+            test: /\.css$/,
+            loader: ExtractCSS.extract(
+              Object.assign(
                 {
                   fallback: styleLoader,
                   use: [cssLoader, postCssLoader],
                 },
                 extractTextPluginOptions,
-              )),
-            },
-            {
-              test: /\.(sa|sc|c)ss$/,
-              loader: ExtractSASS.extract(Object.assign(
+              ),
+            ),
+          },
+          {
+            test: /\.(sa|sc|c)ss$/,
+            loader: ExtractSASS.extract(
+              Object.assign(
                 {
                   fallback: styleLoader,
                   use: [
@@ -244,41 +247,78 @@ module.exports = (component) => {
                   ],
                 },
                 extractTextPluginOptions,
-              )),
+              ),
+            ),
+          },
+          {
+            loader: require.resolve('file-loader'),
+            exclude: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/],
+            options: {
+              name: '[name].[ext]',
+              outputPath,
+              useRelativePath,
+              publicPath,
             },
-            {
-              loader: require.resolve('file-loader'),
-              exclude: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/],
-              options: {
-                name: '[name].[ext]',
-                outputPath,
-                useRelativePath,
-                publicPath,
-              },
-            },
-          ],
-        },
-      ],
-    },
-    plugins: [
-      new webpack.DefinePlugin(env.stringified),
-      ExtractCSS,
-      ExtractSASS,
-      new CopyWebpackPlugin([{
-        from: path.resolve(paths.appLib, component, `${component}.scss`),
-        to: path.resolve(paths.appBuild, component, `${component}.scss`),
-      }]),
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+          },
+        ],
+      },
     ],
-    optimization: {
-      minimize: false,
-    },
-    node: {
-      dgram: 'empty',
-      fs: 'empty',
-      net: 'empty',
-      tls: 'empty',
-      child_process: 'empty',
-    },
-  };
+  },
+  plugins: [
+    new webpack.DefinePlugin(env.stringified),
+    ExtractCSS,
+    ExtractSASS,
+    new ManifestPlugin({
+      fileName: 'asset-manifest.json',
+    }),
+    new SWPrecacheWebpackPlugin({
+      dontCacheBustUrlsMatching: /\.\w{8}\./,
+      filename: 'service-worker.js',
+      logger(message) {
+        if (message.indexOf('Total precache size is') === 0) {
+          return;
+        }
+        if (message.indexOf('Skipping static resource') === 0) {
+          return;
+        }
+        console.log(message);
+      },
+      minify: true,
+      navigateFallback: `${publicUrl}/index.html`,
+      navigateFallbackWhitelist: [/^(?!\/__).*/],
+      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+    }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+  ],
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        uglifyOptions: {
+          ie8: false,
+          compress: {
+            warnings: false,
+            comparisons: false,
+            drop_console: true,
+          },
+          mangle: {
+            safari10: true,
+          },
+          output: {
+            comments: false,
+            ascii_only: true,
+          },
+        },
+        sourceMap: shouldUseSourceMap,
+      }),
+    ],
+  },
+  node: {
+    dgram: 'empty',
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    child_process: 'empty',
+  },
 };

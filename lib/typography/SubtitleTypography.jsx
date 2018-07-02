@@ -16,8 +16,8 @@ class SubtitleTypography extends PureComponent {
 
   static defaultProps = {
     children: null,
-    htmlTag: enums.DEFAULT_HEADER,
-    size: enums.SUBTITLE_SIZE[0],
+    htmlTag: `${enums.HEADER}${enums.HEADLINE_SIZE[4]}`,
+    size: enums.HEADLINE_SIZE[4],
   };
 
   render() {

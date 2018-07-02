@@ -23,7 +23,6 @@ class BaseTypography extends PureComponent {
   render() {
     const { className, htmlTag: Tag, children } = this.props;
     const classNames = classnames(cssClasses.ROOT, className);
-
     return (
       <Tag className={classNames} {...omit(this.props, usedProps.BASE)}>
         {children}
